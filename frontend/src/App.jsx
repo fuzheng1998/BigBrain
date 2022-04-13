@@ -8,7 +8,10 @@ import { Box, Grid } from '@mui/material';
 import GameEditForm from './components/GameEditForm';
 import QuestionEditForm from './components/QuestionEditForm';
 import HeaderBar from './components/Header';
+import { createContext } from 'react';
 
+export const isLoginContext = createContext(false);
+export const isAdminContext = createContext(false);
 function JoinGame () {
   return (
     <div>
@@ -86,9 +89,10 @@ function Header () {
   );
 }
 
-export default function App () {
+function App () {
   return (
         <div>
+            <isLoginContext.Provider value={false}>
 
             {/* Routes nest inside one another. Nested route paths build upon
             parent route paths, and nested route elements render inside
@@ -112,7 +116,7 @@ export default function App () {
                     </Route>
                 </Routes>
             </BrowserRouter>
-
+            </isLoginContext.Provider>
         </div>
   );
 }
@@ -180,3 +184,4 @@ function Dashboard () {
         </div>
   );
 }
+export default App;

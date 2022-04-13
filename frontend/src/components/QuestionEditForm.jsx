@@ -3,7 +3,7 @@ import '@fontsource/roboto';
 import { Autocomplete, Box, ButtonGroup, TextField, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 
-const top100Films = [
+const questionType = [
   { label: 'Multi', year: 0 },
   { label: 'Single', year: 1 }
 ];
@@ -13,7 +13,7 @@ function QuestionEditForm () {
       <>
           <Autocomplete
               disablePortal
-              options={top100Films}
+              options={questionType}
               fullWidth={true}
               renderInput={(params) => <TextField {...params} label="Question Type"/>}
           />
