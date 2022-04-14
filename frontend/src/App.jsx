@@ -100,15 +100,15 @@ function App () {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Layout />}>
-                        <Route index element={<JoinGame />} />
-                        <Route path={'login'} element={<Login />} />
-                        <Route path={'register'} element={<Register />} />
-                        <Route path="player/join" element={<JoinGame />} />
-                        <Route path="player/play/:sessionId" element={<PlayGame />} />
-                        <Route path="admin/dashboard" element={<Dashboard />} />
-                        <Route path={'admin/edit/:gameId'} element={<EditGame />} />
-                        <Route path={'admin/edit/:gameId/:questionId'} element={<EditQuestion />} />
-                        <Route path={'results/:gameId'} element={<Results />} />
+                        <Route index element={<JoinGame />} exact={true}/>
+                        <Route path={'login'} element={<Login />} exact={true}/>
+                        <Route path={'register'} element={<Register />} exact={true}/>
+                        <Route path="player/join" element={<JoinGame />} exact={true}/>
+                        <Route path="player/play/:sessionId" element={<PlayGame />} exact={true}/>
+                        <Route path={'admin/dashboard'} element={<Dashboard />} exact={true}/>
+                        <Route path={'admin/edit/:gameId'} element={<EditGame />} exact={true}/>
+                        <Route path={'admin/edit/:gameId/question/:questionId'} element={<EditQuestion />} exact={true}/>
+                        <Route path={'results/:gameId'} element={<Results />} exact={true}/>
                         {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}

@@ -2,6 +2,7 @@ import * as React from 'react';
 import '@fontsource/roboto';
 import { Autocomplete, Box, ButtonGroup, TextField, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 const questionType = [
   { label: 'Multi', year: 0 },
@@ -9,6 +10,13 @@ const questionType = [
 ];
 
 function QuestionEditForm () {
+  const navigate = useNavigate();
+  const updateQuestion = () => {
+    console.log('updateQuestion');
+    // todo update question operation
+    navigate('../admin/edit/:gameId');
+    console.log('question updated')
+  };
   return (
       <>
           <Autocomplete
@@ -43,7 +51,7 @@ function QuestionEditForm () {
               <TextField label={'Answer 04'} fullWidth={true} type={'text'}/>
               <ButtonGroup fullWidth={true} variant={'contained'}>
                   <Button>Cancel</Button>
-                  <Button>OK</Button>
+                  <Button onClick={updateQuestion}>OK</Button>
               </ButtonGroup>
           </Box>
       </>

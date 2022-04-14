@@ -1,6 +1,7 @@
 import * as React from 'react';
 import '@fontsource/roboto';
 import {
+  Autocomplete,
   Box,
   ButtonGroup,
   Dialog, DialogActions,
@@ -11,8 +12,11 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
+import { useParams, useNavigate } from 'react-router-dom';
 
 function GameEditForm () {
+  const { gameId } = useParams();
+  console.log('game id' + gameId);
   return (
         <Box component="form" sx={{
           maxWidth: '100%',
@@ -27,65 +31,101 @@ function GameEditForm () {
   );
 }
 function GameQuestionList () {
-  const [open, setOpen] = React.useState(false);
-
+  const { gameId } = useParams()
+  const [newGameDialogOpen, setNewGameDialogOpen] = React.useState(false);
+  const navigate = useNavigate();
+  const deleteGameHandler = () => {
+  //  todo delete game from database
+    console.log('delete game');
+    navigate('../../admin/edit/' + gameId);
+    console.log('game deleted')
+  };
+  const navToQuestionEdit = () => {
+    navigate('../../admin/edit/' + gameId + '/question/1');
+  };
   return (
       <>
-        <Box>
+        <Box sx={{ margin: 'auto', width: '70%' }}>
             <Card sx={{ display: 'flex' }}>
                 <Typography variant="body1">Questions</Typography>
                 <ButtonGroup size={'small'} variant="text" aria-label="text button group">
-                    <Button>Edit</Button>
-                    <Button>Delete</Button>
+                    <Button onClick={navToQuestionEdit}>Edit</Button>
+                    <Button onClick={deleteGameHandler}>Delete</Button>
                 </ButtonGroup>
             </Card>
             <Card sx={{ display: 'flex' }}>
                 <Typography variant="body1">Questions</Typography>
                 <ButtonGroup size={'small'} variant="text" aria-label="text button group">
-                    <Button>Edit</Button>
+                    {/* open to edit question details */}
+                    <Button onClick={navToQuestionEdit}>Edit</Button>
                     <Button>Delete</Button>
                 </ButtonGroup>
             </Card>
         </Box>
       <Box>
-          <GameAddFormDialog open={open} onClose={() => setOpen(false)}/>
+          <GameAddFormDialog open={newGameDialogOpen} onClose={() => setNewGameDialogOpen(false)}/>
       </Box>
 
     </>
   );
 }
 function GameAddFormDialog () {
+  const questionType = [
+    { label: 'Multi', year: 0 },
+    { label: 'Single', year: 1 }
+  ];
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
+
+  const addHandler = () => {
+  //  todo add question to database
+    console.log('question added');
     setOpen(false);
   };
 
   return (
         <div>
             <Button variant="outlined" onClick={handleClickOpen}>
-                Add New Game
+                Add New Question
             </Button>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Add New</DialogTitle>
+            <Dialog open={open} onClose={handleCloseDialog}>
+                <DialogTitle>New Question</DialogTitle>
                 <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="game-title"
-                        label="Game Title"
-                        type="text"
-                        fullWidth
-                        variant="standard"
+                    <Autocomplete
+                        disablePortal
+                        options={questionType}
+                        fullWidth={true}
+                        renderInput={(params) => <TextField {...params} label="Question Type"/>}
                     />
+                    <TextField type={'text'} variant={'outlined'} fullWidth={true} label="Question"/>
+                    <TextField
+                        label="Time Limit"
+                        type="number"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        fullWidth={true}
+                    />
+                    <TextField
+                        label="Points"
+                        type="number"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        fullWidth={true}
+                    />
+                    <TextField label={'Question Image'} fullWidth={true} type={'url'}/>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Add</Button>
+                    <Button onClick={handleCloseDialog}>Cancel</Button>
+                    <Button onClick={addHandler}>Add</Button>
                 </DialogActions>
             </Dialog>
         </div>

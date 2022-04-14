@@ -2,7 +2,7 @@ import * as React from 'react';
 import '@fontsource/roboto';
 import {
   AppBar,
-  Box,
+  Box, Link,
   Toolbar,
   Typography
 } from '@mui/material';
@@ -15,7 +15,7 @@ function HeaderBar () {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        BigBrain
+                        <Link variant={'inherit'} color={'inherit'} underline={'none'} to="/" href={'/'}>BigBrain</Link>
                     </Typography>
                     <LoginButton />
                 </Toolbar>
