@@ -2,9 +2,15 @@ import React from 'react';
 import './App.css';
 import '@fontsource/roboto';
 
+import Login from './page/Login.jsx';
+import Register from './page/Register.jsx';
+
 function App () {
   return (
-    <h1>hello world</h1>
+    <>
+      <Login />
+      <Register />
+    </>
   );
 }
 
