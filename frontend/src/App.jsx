@@ -21,22 +21,6 @@ function JoinGame () {
   );
 }
 
-function Login () {
-  return (
-      <div>
-        <h1>Login</h1>
-      </div>
-  );
-}
-
-function Register () {
-  return (
-      <div>
-        <h1>Register</h1>
-      </div>
-  );
-}
-
 function PlayGame () {
   return (
       <div>
