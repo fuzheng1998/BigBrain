@@ -1,7 +1,13 @@
 import * as React from 'react';
 import './App.css';
 import '@fontsource/roboto';
-import {BrowserRouter, Link, Outlet, Route, Routes} from 'react-router-dom';
+import { BrowserRouter, Link, Outlet, Route, Routes } from 'react-router-dom';
+import GameCard from './components/GameCard';
+import Button from '@mui/material/Button';
+import { Box, Grid } from '@mui/material';
+import GameEditForm from './components/GameEditForm';
+import QuestionEditForm from './components/QuestionEditForm';
+import HeaderBar from './components/Header';
 
 function JoinGame () {
   return (
@@ -39,6 +45,7 @@ function EditGame () {
   return (
       <div>
         <h1>Edit Game</h1>
+          <GameEditForm/>
       </div>
   );
 }
@@ -55,6 +62,7 @@ function EditQuestion () {
   return (
       <div>
         <h1>Edit Question</h1>
+          <QuestionEditForm/>
       </div>
   );
 }
@@ -73,14 +81,7 @@ function NotFound () {
 function Header () {
   return (
     <header>
-        <h1>Basic Example</h1>
-
-        <p>
-            This example demonstrates some of the core features of React Router
-            including nested <code>&lt;Route&gt;</code>s,{' '}
-            <code>&lt;Outlet&gt;</code>s, <code>&lt;Link&gt;</code>s, and using a
-            visits an unrecognized URL.
-        </p>
+        <HeaderBar/>
     </header>
   );
 }
@@ -88,7 +89,7 @@ function Header () {
 export default function App () {
   return (
         <div>
-            <Header/>
+
             {/* Routes nest inside one another. Nested route paths build upon
             parent route paths, and nested route elements render inside
             parent route elements. See the note about <Outlet> below. */}
@@ -121,19 +122,7 @@ function Layout () {
         <div>
             {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/about">About</Link>
-                    </li>
-                    <li>
-                        <Link to="admin/dashboard">Dashboard</Link>
-                    </li>
-                </ul>
-            </nav>
+            <Header/>
 
             <hr />
 
@@ -148,7 +137,46 @@ function Layout () {
 function Dashboard () {
   return (
         <div>
-            <h2>Dashboard</h2>
+            <h1>Dashboard</h1>
+            <Button variant="outlined">add game</Button>
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={1}>
+                    <Grid container item spacing={3}>
+                        <Grid item xs={4}>
+                            <GameCard />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <GameCard />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <GameCard/>
+                        </Grid>
+                    </Grid>
+                    <Grid container item spacing={3}>
+                        <Grid item xs={4}>
+                            <GameCard />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <GameCard />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <GameCard/>
+                        </Grid>
+                    </Grid>
+                    <Grid container item spacing={3}>
+                        <Grid item xs={4}>
+                            <GameCard />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <GameCard />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <GameCard/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Box>
+
         </div>
   );
 }
