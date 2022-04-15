@@ -9,27 +9,15 @@ import GameEditForm from './components/GameEditForm';
 import QuestionEditForm from './components/QuestionEditForm';
 import HeaderBar from './components/Header';
 
+
+import Login from './page/Login.jsx';
+import Register from './page/Register.jsx';
+
 function JoinGame () {
   return (
     <div>
       <h1>Join Game</h1>
     </div>
-  );
-}
-
-function Login () {
-  return (
-      <div>
-        <h1>Login</h1>
-      </div>
-  );
-}
-
-function Register () {
-  return (
-      <div>
-        <h1>Register</h1>
-      </div>
   );
 }
 
