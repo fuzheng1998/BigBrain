@@ -12,6 +12,11 @@ import HeaderBar from './components/Header';
 
 import Login from './page/Login.jsx';
 import Register from './page/Register.jsx';
+import BasicTable from "./components/GameResultTable";
+import GameResultChart from "./components/GameResultChart";
+import Paper from "@mui/material/Paper";
+import Card from "@mui/material/Card";
+import {ArrowBack} from "@mui/icons-material";
 
 export const isLoginContext = createContext(false);
 export const isAdminContext = createContext(false);
@@ -41,11 +46,29 @@ function EditGame () {
 }
 
 function Results () {
-  return (
-      <div>
-        <h1>Results</h1>
-      </div>
-  );
+    return (
+        <Box sx={{flexGrow: 1}}>
+            <Grid container spacing={5}>
+                <Grid item xs={6}>
+                    <Paper>
+                        <Card>
+                            <BasicTable/>
+                        </Card>
+                    </Paper>
+                </Grid>
+                <Grid item xs={6}>
+                    <Paper>
+                        <Card>
+                            <GameResultChart/>
+                        </Card>
+                    </Paper>
+                </Grid>
+            </Grid>
+            <Button component={Link} variant={"contained"} to={'/admin/dashboard'} size={'large'} startIcon={<ArrowBack/>}>
+                back to Dashboard
+            </Button>
+        </Box>
+    );
 }
 
 function EditQuestion () {
