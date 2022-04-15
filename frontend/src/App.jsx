@@ -137,7 +137,17 @@ function Layout () {
             {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
             <Header/>
-
+            <nav>
+                <Link to="/">Home </Link>
+                <Link to="login">Login </Link>
+                <Link to="register">Register </Link>
+                <Link to="player/join">Player Join </Link>
+                <Link to="player/play/:sessionId">Player Play </Link>
+                <Link to={'admin/dashboard'}>Admin Dashboard </Link>
+                <Link to={'admin/edit/:gameId'}>Admin Game Edit </Link>
+                <Link to={'admin/edit/:gameId/question/:questionId'}>Admin Question Edit </Link>
+                <Link to={'results/:gameId'}>Results </Link>
+            </nav>
             <hr />
 
             {/* An <Outlet> renders whatever child route is currently active,
