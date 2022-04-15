@@ -1,18 +1,25 @@
 import * as React from 'react';
+import {createContext} from 'react';
 import './App.css';
 import '@fontsource/roboto';
-import { BrowserRouter, Link, Outlet, Route, Routes } from 'react-router-dom';
+import {BrowserRouter, Link, Outlet, Route, Routes} from 'react-router-dom';
 import GameCard from './components/GameCard';
 import Button from '@mui/material/Button';
-import { Box, Grid } from '@mui/material';
+import {Box, Grid} from '@mui/material';
 import GameEditForm from './components/GameEditForm';
 import QuestionEditForm from './components/QuestionEditForm';
 import HeaderBar from './components/Header';
 
-
 import Login from './page/Login.jsx';
 import Register from './page/Register.jsx';
+import BasicTable from "./components/GameResultTable";
+import GameResultChart from "./components/GameResultChart";
+import Paper from "@mui/material/Paper";
+import Card from "@mui/material/Card";
+import {ArrowBack} from "@mui/icons-material";
 
+export const isLoginContext = createContext(false);
+export const isAdminContext = createContext(false);
 function JoinGame () {
   return (
     <div>
@@ -39,11 +46,29 @@ function EditGame () {
 }
 
 function Results () {
-  return (
-      <div>
-        <h1>Results</h1>
-      </div>
-  );
+    return (
+        <Box sx={{flexGrow: 1}}>
+            <Grid container spacing={5}>
+                <Grid item xs={6}>
+                    <Paper>
+                        <Card>
+                            <BasicTable/>
+                        </Card>
+                    </Paper>
+                </Grid>
+                <Grid item xs={6}>
+                    <Paper>
+                        <Card>
+                            <GameResultChart/>
+                        </Card>
+                    </Paper>
+                </Grid>
+            </Grid>
+            <Button component={Link} variant={"contained"} to={'/admin/dashboard'} size={'large'} startIcon={<ArrowBack/>}>
+                back to Dashboard
+            </Button>
+        </Box>
+    );
 }
 
 function EditQuestion () {
@@ -74,9 +99,10 @@ function Header () {
   );
 }
 
-export default function App () {
+function App () {
   return (
         <div>
+            <isLoginContext.Provider value={false}>
 
             {/* Routes nest inside one another. Nested route paths build upon
             parent route paths, and nested route elements render inside
@@ -84,15 +110,15 @@ export default function App () {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Layout />}>
-                        <Route index element={<JoinGame />} />
-                        <Route path={'login'} element={<Login />} />
-                        <Route path={'register'} element={<Register />} />
-                        <Route path="player/join" element={<JoinGame />} />
-                        <Route path="player/play/:sessionId" element={<PlayGame />} />
-                        <Route path="admin/dashboard" element={<Dashboard />} />
-                        <Route path={'admin/edit/:gameId'} element={<EditGame />} />
-                        <Route path={'admin/edit/:gameId/:questionId'} element={<EditQuestion />} />
-                        <Route path={'results/:gameId'} element={<Results />} />
+                        <Route index element={<JoinGame />} exact={true}/>
+                        <Route path={'login'} element={<Login />} exact={true}/>
+                        <Route path={'register'} element={<Register />} exact={true}/>
+                        <Route path="player/join" element={<JoinGame />} exact={true}/>
+                        <Route path="player/play/:sessionId" element={<PlayGame />} exact={true}/>
+                        <Route path={'admin/dashboard'} element={<Dashboard />} exact={true}/>
+                        <Route path={'admin/edit/:gameId'} element={<EditGame />} exact={true}/>
+                        <Route path={'admin/edit/:gameId/question/:questionId'} element={<EditQuestion />} exact={true}/>
+                        <Route path={'results/:gameId'} element={<Results />} exact={true}/>
                         {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}
@@ -100,7 +126,7 @@ export default function App () {
                     </Route>
                 </Routes>
             </BrowserRouter>
-
+            </isLoginContext.Provider>
         </div>
   );
 }
@@ -168,3 +194,4 @@ function Dashboard () {
         </div>
   );
 }
+export default App;
