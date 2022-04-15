@@ -3,7 +3,6 @@ import {createContext} from 'react';
 import './App.css';
 import '@fontsource/roboto';
 import {BrowserRouter, Link, Outlet, Route, Routes} from 'react-router-dom';
-import GameCard from './components/GameCard';
 import Button from '@mui/material/Button';
 import {Box, Grid} from '@mui/material';
 import GameEditForm from './components/GameEditForm';
@@ -17,6 +16,8 @@ import GameResultChart from "./components/GameResultChart";
 import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
 import {ArrowBack} from "@mui/icons-material";
+import GameCardLayout from "./components/GameCardLayout";
+import GameAddDialog from "./components/GameAddDialog";
 
 export const isLoginContext = createContext(false);
 export const isAdminContext = createContext(false);
@@ -137,9 +138,6 @@ function Layout () {
             {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
             <Header/>
-
-            <hr />
-
             {/* An <Outlet> renders whatever child route is currently active,
           so you can think about this <Outlet> as a placeholder for
           the child routes we defined above. */}
@@ -149,47 +147,19 @@ function Layout () {
 }
 
 function Dashboard () {
-  return (
+    const [open, setOpen] = React.useState(false);
+    const dialogClose = () => {
+        setOpen(false);
+    };
+    const dialogOpen = () => {
+        setOpen(true);
+    };
+    return (
         <div>
             <h1>Dashboard</h1>
-            <Button variant="outlined">add game</Button>
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={1}>
-                    <Grid container item spacing={3}>
-                        <Grid item xs={4}>
-                            <GameCard />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <GameCard />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <GameCard/>
-                        </Grid>
-                    </Grid>
-                    <Grid container item spacing={3}>
-                        <Grid item xs={4}>
-                            <GameCard />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <GameCard />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <GameCard/>
-                        </Grid>
-                    </Grid>
-                    <Grid container item spacing={3}>
-                        <Grid item xs={4}>
-                            <GameCard />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <GameCard />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <GameCard/>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Box>
+            <Button variant="outlined" onClick={dialogOpen}>add game</Button>
+            <GameAddDialog status = {open} closeHandler = {dialogClose}/>
+            <GameCardLayout/>
 
         </div>
   );

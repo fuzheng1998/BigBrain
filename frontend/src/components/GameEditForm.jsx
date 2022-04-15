@@ -1,18 +1,19 @@
 import * as React from 'react';
 import '@fontsource/roboto';
 import {
-  Autocomplete,
-  Box,
-  ButtonGroup,
-  Dialog, DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Typography
+    Autocomplete,
+    Box,
+    ButtonGroup,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+    Typography
 } from '@mui/material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import { useParams, useNavigate } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 
 function GameEditForm () {
   const { gameId } = useParams();
@@ -21,10 +22,7 @@ function GameEditForm () {
         <Box component="form" sx={{
           maxWidth: '100%',
         }}>
-            <Typography variant="h1">Game Title</Typography>
-            <TextField
-    label="Game Title"
-    variant="outlined"/>
+            {/*todo game title should be editable*/}
             <GameQuestionList/>
     </Box>
 
@@ -46,21 +44,22 @@ function GameQuestionList () {
   return (
       <>
         <Box sx={{ margin: 'auto', width: '70%' }}>
+            <TextField
+                label="Game Title"
+                variant="outlined"
+                size={'small'}
+                fullWidth={true}
+            />
+            {/* card is for 1 question, to be iterated*/}
             <Card sx={{ display: 'flex' }}>
                 <Typography variant="body1">Questions</Typography>
-                <ButtonGroup size={'small'} variant="text" aria-label="text button group">
+                <ButtonGroup variant="text">
                     <Button onClick={navToQuestionEdit}>Edit</Button>
                     <Button onClick={deleteGameHandler}>Delete</Button>
                 </ButtonGroup>
             </Card>
-            <Card sx={{ display: 'flex' }}>
-                <Typography variant="body1">Questions</Typography>
-                <ButtonGroup size={'small'} variant="text" aria-label="text button group">
-                    {/* open to edit question details */}
-                    <Button onClick={navToQuestionEdit}>Edit</Button>
-                    <Button>Delete</Button>
-                </ButtonGroup>
-            </Card>
+        {/* card is for 1 question, to be iterated */}
+
         </Box>
       <Box>
           <GameAddFormDialog open={newGameDialogOpen} onClose={() => setNewGameDialogOpen(false)}/>

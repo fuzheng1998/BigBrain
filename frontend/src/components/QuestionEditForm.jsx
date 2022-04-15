@@ -1,12 +1,12 @@
 import * as React from 'react';
 import '@fontsource/roboto';
-import { Autocomplete, Box, ButtonGroup, TextField, Typography } from '@mui/material';
+import {Autocomplete, Box, ButtonGroup, TextField, Typography} from '@mui/material';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const questionType = [
-  { label: 'Multi', year: 0 },
-  { label: 'Single', year: 1 }
+  { label: 'Multi', type: 0 },
+  { label: 'Single', type: 1 }
 ];
 
 function QuestionEditForm () {
@@ -19,6 +19,7 @@ function QuestionEditForm () {
   };
   return (
       <>
+
           <Autocomplete
               disablePortal
               options={questionType}
