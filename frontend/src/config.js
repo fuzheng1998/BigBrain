@@ -1,7 +1,5 @@
-import fs from 'fs';
-
-const configData = JSON.parse(fs.readFileSync('../frontend/src/config.json'));
-export const BACKEND_PORT = 'BACKEND_PORT' in configData ? configData.BACKEND_PORT : 5000;
+import * as data from './config.json';
+const BACKEND_PORT = data.BACKEND_PORT
 
 export const BACKEND_URL = `http://localhost:${BACKEND_PORT}`
 export const AUTH = {
