@@ -3,20 +3,26 @@ import {createContext} from 'react';
 import './App.css';
 import '@fontsource/roboto';
 import {BrowserRouter, Link, Outlet, Route, Routes} from 'react-router-dom';
-import GameCard from './components/GameCard';
+
+// import mui tags
 import Button from '@mui/material/Button';
 import {Box, Grid} from '@mui/material';
 import GameEditForm from './components/GameEditForm';
 import QuestionEditForm from './components/QuestionEditForm';
 import HeaderBar from './components/Header';
-
-import Login from './page/Login.jsx';
-import Register from './page/Register.jsx';
-import BasicTable from "./components/GameResultTable";
-import GameResultChart from "./components/GameResultChart";
 import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
 import {ArrowBack} from "@mui/icons-material";
+
+// import pages
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import PlayGame from './pages/PlayGame.jsx';
+
+// import components
+import BasicTable from "./components/GameResultTable";
+import GameResultChart from "./components/GameResultChart";
+import GameCard from './components/GameCard';
 
 export const isLoginContext = createContext(false);
 export const isAdminContext = createContext(false);
@@ -25,14 +31,6 @@ function JoinGame () {
     <div>
       <h1>Join Game</h1>
     </div>
-  );
-}
-
-function PlayGame () {
-  return (
-      <div>
-        <h1>Play Game</h1>
-      </div>
   );
 }
 
