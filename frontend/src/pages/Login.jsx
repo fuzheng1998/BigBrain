@@ -64,9 +64,9 @@ export function loginAsUser(formDataObj) {
 function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
-    const registerFD = new FormData(event.currentTarget);
+    const loginFD = new FormData(event.currentTarget);
     let formDataObj = {};
-    registerFD.forEach((value, key) => formDataObj[key] = value);
+    loginFD.forEach((value, key) => formDataObj[key] = value);
 
     console.log({
       formDataObj
