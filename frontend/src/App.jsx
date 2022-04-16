@@ -18,6 +18,7 @@ import {ArrowBack} from "@mui/icons-material";
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import PlayGame from './pages/PlayGame.jsx';
+import JoinGame from './pages/JoinGame.jsx'
 
 // import components
 import BasicTable from "./components/GameResultTable";
@@ -26,13 +27,6 @@ import GameCard from './components/GameCard';
 
 export const isLoginContext = createContext(false);
 export const isAdminContext = createContext(false);
-function JoinGame () {
-  return (
-    <div>
-      <h1>Join Game</h1>
-    </div>
-  );
-}
 
 function EditGame () {
   return (
