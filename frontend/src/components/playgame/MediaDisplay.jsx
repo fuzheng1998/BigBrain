@@ -1,12 +1,19 @@
 import React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
-function MediaDisplay () {
-    return (
-        <div>
-          <h1>Media display here</h1>
-        </div>
-    );
-  }
+function MediaDisplay({ mediaType, youtubeCode }) {
+  return (
+      <iframe
+        style={{'flexGrow': 1, 'border': 'none', 'margin': 0, 'padding': 0,}}
+        title='Youtube player'
+        sandbox='allow-same-origin allow-forms allow-popups allow-scripts allow-presentation'
+        src={`https://www.youtube.com/embed/${youtubeCode}`}
+        allowFullScreen>
+
+      </iframe>
+  );
+}
 
 
-  export default MediaDisplay;
+export default MediaDisplay;
