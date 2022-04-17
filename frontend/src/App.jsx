@@ -13,6 +13,8 @@ import HeaderBar from './components/Header';
 import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
 import {ArrowBack} from "@mui/icons-material";
+import GameCardLayout from "./components/GameCardLayout";
+import GameAddDialog from "./components/GameAddDialog";
 
 // import pages
 import Login from './pages/Login.jsx';
@@ -151,47 +153,19 @@ function Layout () {
 }
 
 function Dashboard () {
-  return (
+    const [open, setOpen] = React.useState(false);
+    const dialogClose = () => {
+        setOpen(false);
+    };
+    const dialogOpen = () => {
+        setOpen(true);
+    };
+    return (
         <div>
             <h1>Dashboard</h1>
-            <Button variant="outlined">add game</Button>
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={1}>
-                    <Grid container item spacing={3}>
-                        <Grid item xs={4}>
-                            <GameCard />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <GameCard />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <GameCard/>
-                        </Grid>
-                    </Grid>
-                    <Grid container item spacing={3}>
-                        <Grid item xs={4}>
-                            <GameCard />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <GameCard />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <GameCard/>
-                        </Grid>
-                    </Grid>
-                    <Grid container item spacing={3}>
-                        <Grid item xs={4}>
-                            <GameCard />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <GameCard />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <GameCard/>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Box>
+            <Button variant="outlined" onClick={dialogOpen}>add game</Button>
+            <GameAddDialog status = {open} closeHandler = {dialogClose}/>
+            <GameCardLayout/>
 
         </div>
   );
