@@ -9,6 +9,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
+import { PlayGameContext } from '../../pages/PlayGame.jsx';
+
 function handleClick(event) {
   console.log(event.target.innerText);
 }
@@ -21,24 +23,18 @@ function handleSubmit(event) {
   console.log(formDataObj);
 }
 
-function StandaloneToggleButton(value, key) {
+function SingleToggleButton(value, key) {
   const [selected, setSelected] = React.useState(false);
-
   return (
     <ToggleButton
       value={value}
-      // selected={selected}
       key={key}
-      // onChange={() => {
-      //   setSelected(!selected);
-      // }}
       sx={{
-        // mx: 8,
         "&.MuiToggleButtonGroup-grouped": {
           borderRadius: "4px !important",
           my:2,
           border: "1px solid lightgrey !important"
-        }
+        },
       }}
     >
       {value}
@@ -47,9 +43,11 @@ function StandaloneToggleButton(value, key) {
 }
 
 function ChoicesCard() {
+  const { countDown , setCountDown } = React.useContext(PlayGameContext);
+
   const choiceList = ["choice1", "choice2", "choice3", "choice4", "choice5", "choice6"];
 
-  const [playerAnswers, setPlayerAnswers] = React.useState([]);
+  const [playerAnswers, setPlayerAnswers] = React.useState(["choice4"]);
 
   const handleChoices = (event, newAnswers) => {
     setPlayerAnswers(newAnswers);
@@ -57,16 +55,14 @@ function ChoicesCard() {
   };
 
   let choiceBtnList = choiceList.map((v, i) => {
-    // return (<ToggleButton variant="contained" value={v} onClick={handleClick} key={i}>{v}</ToggleButton>)
-    return StandaloneToggleButton(v, i);
+    return SingleToggleButton(v, i);
   });
-  // console.log(choiceList);
-  // console.log(choiceBtnList);
   return (
     <Box>
       <ToggleButtonGroup
         value={playerAnswers}
         onChange={handleChoices}
+        disabled={countDown<0}
         sx={{
           border: "1px solid lightgrey",
           display: 'flex',

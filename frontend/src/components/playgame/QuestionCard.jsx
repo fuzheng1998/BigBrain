@@ -6,8 +6,10 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 
 import MediaDisplay from './MediaDisplay.jsx'
+import TimerWidget from './TimerWidget.jsx'
 
 function QuestionCard() {
     return (
@@ -19,15 +21,23 @@ function QuestionCard() {
                 alignItems: 'stretch',
                 // alignContent: 'stretch',
                 borderRadius: 2,
-                py: 5,
+                p: 1,
                 bgcolor: '#f0f0f0',
-                minHeight: '50vh',
+                minHeight: '60vh',
             }}
         >
             <MediaDisplay mediaType="video" youtubeCode="ojeCfN6MGCI" />
-            <Typography component="h1" variant="h3">
-                Question is displayed here
-            </Typography>
+            <Grid container spacing={2}>
+                <Grid item xs={10}>
+                    <Typography component="h1" variant="h3">
+                        Question is displayed here
+                    </Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <TimerWidget />
+                </Grid>
+            </Grid>
+
 
         </Box>
     );

@@ -11,13 +11,19 @@ import Container from '@mui/material/Container';
 import QuestionCard from '../components/playgame/QuestionCard';
 import ChoicesCard from '../components/playgame/ChoicesCard';
 
+export const PlayGameContext = React.createContext()
+
 function PlayGame () {
+    const [countDown, setCountDown] = React.useState(10);
+
     return (
+        <PlayGameContext.Provider value={{countDown , setCountDown}}>
         <Container maxWidth="lg">
             <CssBaseline />
             <QuestionCard />
             <ChoicesCard />
         </Container>
+        </PlayGameContext.Provider>
     );
   }
 
