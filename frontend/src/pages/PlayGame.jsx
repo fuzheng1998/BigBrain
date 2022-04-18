@@ -20,11 +20,27 @@ function PlayGame() {
 
   return (
     <PlayGameContext.Provider value={{ countDown, setCountDown }}>
-      <Container maxWidth="lg">
+      <Container 
+        maxWidth="lg" 
+        sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+      >
         <CssBaseline />
         {
           isEndOfGame ? (
+            <>
             <ResultCard />
+            <Button
+              variant="contained"
+              size="large"
+              sx={{ mt: 3, mb: 2, width: 0.8, fontSize: 24 }}
+            >
+              BACK TO LOBBY
+            </Button>
+            </>
           ) : (
             <>
               <QuestionCard />
