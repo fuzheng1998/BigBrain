@@ -5,6 +5,7 @@ import {AppBar, Box, Link, Toolbar, Typography} from '@mui/material';
 import Button from '@mui/material/Button';
 import {userContext} from "../App";
 import {AUTH} from "../config";
+import {useNavigate} from "react-router-dom";
 
 function HeaderBar () {
   return (
@@ -22,6 +23,7 @@ function HeaderBar () {
 }
 function LoginOutButton () {
     const [user, setUser] = useContext(userContext);
+    let navigate = useNavigate();
     const logout = ()=>{
         fetch(AUTH.LOGOUT_URL,
             {
@@ -39,7 +41,7 @@ function LoginOutButton () {
             .catch(err => console.log(err));
     }
     if (user === null) {
-        return <Button variant="text" color={'inherit'}>login</Button>;
+        return <Button variant="text" color={'inherit'} onClick={()=>{navigate("../login")}}>login</Button>;
     } else {
         return <Button variant="text" color={'inherit'} onClick={logout}>logout</Button>;
     }

@@ -76,6 +76,7 @@ function Login() {
       const CUR_USER_TOKEN = responseObj["token"];
       console.log(CUR_USER_TOKEN);
       setUserToken(CUR_USER_TOKEN);
+      localStorage.setItem('auth_token', CUR_USER_TOKEN);
 
     }).catch((error) => {
       console.error('Login failed', error);

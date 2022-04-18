@@ -62,16 +62,16 @@ function GameQuestionList () {
 
         </Box>
       <Box>
-          <GameAddFormDialog open={newGameDialogOpen} onClose={() => setNewGameDialogOpen(false)}/>
+          <QuestionAddFormDialog open={newGameDialogOpen} onClose={() => setNewGameDialogOpen(false)}/>
       </Box>
 
     </>
   );
 }
-function GameAddFormDialog () {
+function QuestionAddFormDialog () {
   const questionType = [
-    { label: 'Multi', year: 0 },
-    { label: 'Single', year: 1 }
+    { label: 'Multi', type: 0 },
+    { label: 'Single', type: 1 }
   ];
   const [open, setOpen] = React.useState(false);
 
@@ -84,7 +84,9 @@ function GameAddFormDialog () {
   };
 
   const addHandler = () => {
-  //  todo add question to database
+      let newQuestion = {
+
+      }
     console.log('question added');
     setOpen(false);
   };

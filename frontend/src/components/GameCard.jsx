@@ -18,9 +18,10 @@ import {
 } from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 
-function GameCard() {
+function GameCard(props) {
     //fake data
     const gameId = 1;
+    const gameData = props.gameData
     const navigate = useNavigate();
     const [gameState, setGameState] = React.useState(false);
     const [sessionDialogOpen, setSessionDialogOpen] = React.useState(false);
@@ -74,6 +75,7 @@ function GameCard() {
     }
     return (
         <Card sx={{maxWidth: 345}}>
+            <p>{gameData.name}</p>
             <CardMedia
                 component="img"
                 alt="green iguana"
@@ -82,7 +84,7 @@ function GameCard() {
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    Dummy Game
+                    gameName
                 </Typography>
                 <List>
                     <ListItem>

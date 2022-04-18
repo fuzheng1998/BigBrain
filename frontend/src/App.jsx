@@ -13,9 +13,7 @@ import HeaderBar from './components/Header';
 import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
 import {ArrowBack} from "@mui/icons-material";
-import GameCardLayout from "./components/GameCardLayout";
-import GameAddDialog from "./components/GameAddDialog";
-
+import Dashboard from "./components/Dashboard";
 // import pages
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
@@ -155,22 +153,5 @@ function Layout () {
   );
 }
 
-function Dashboard () {
-    const [open, setOpen] = React.useState(false);
-    const dialogClose = () => {
-        setOpen(false);
-    };
-    const dialogOpen = () => {
-        setOpen(true);
-    };
-    return (
-        <div>
-            <h1>Dashboard</h1>
-            <Button variant="outlined" onClick={dialogOpen}>add game</Button>
-            <GameAddDialog status = {open} closeHandler = {dialogClose}/>
-            <GameCardLayout/>
 
-        </div>
-  );
-}
 export default App;
