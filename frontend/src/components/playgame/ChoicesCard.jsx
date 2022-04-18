@@ -58,7 +58,7 @@ function ChoicesCard() {
     return SingleToggleButton(v, i);
   });
   return (
-    <Box>
+    <Box sx={{width:"100%"}}> 
       <ToggleButtonGroup
         value={playerAnswers}
         onChange={handleChoices}

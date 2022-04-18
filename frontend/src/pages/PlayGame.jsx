@@ -11,11 +11,13 @@ import Container from '@mui/material/Container';
 import QuestionCard from '../components/playgame/QuestionCard';
 import ChoicesCard from '../components/playgame/ChoicesCard';
 import ResultCard from '../components/playgame/ResultCard'
+import LobbyCard from '../components/playgame/LobbyCard';
 
 export const PlayGameContext = React.createContext()
 
 function PlayGame() {
   const [countDown, setCountDown] = React.useState(10);
+  const [isGameStart, setIsGameStart] = React.useState(false);
   const [isEndOfGame, setIsEndOfGame] = React.useState(true);
 
   return (
@@ -30,23 +32,30 @@ function PlayGame() {
       >
         <CssBaseline />
         {
-          isEndOfGame ? (
-            <>
-            <ResultCard />
-            <Button
-              variant="contained"
-              size="large"
-              sx={{ mt: 3, mb: 2, width: 0.8, fontSize: 24 }}
-            >
-              BACK TO LOBBY
-            </Button>
-            </>
-          ) : (
-            <>
-              <QuestionCard />
-              <ChoicesCard />
-            </>
-        )}
+          isGameStart ? ( 
+            isEndOfGame ? (
+              <>
+              <ResultCard />
+              <Button
+                variant="contained"
+                size="large"
+                sx={{ mt: 3, mb: 2, width: 0.8, fontSize: 24 }}
+              >
+                JOIN A NEW GAME
+              </Button>
+              </>
+            ) : (
+              <>
+                <QuestionCard />
+                <ChoicesCard />
+              </>
+          )
+
+          ):(
+            <LobbyCard />
+          )
+        }
+        
       </Container>
     </PlayGameContext.Provider>
   );

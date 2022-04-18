@@ -29,8 +29,8 @@ function TimerWidget() {
     sx={{
       border: "1px solid lightgrey",
     }}>
-      <Typography component="h1" variant="h1">
-        {countDown >= 0?(countDown):(<AlarmOffIcon sx={{ fontSize: 80 }} />)}
+      <Typography component="h1" variant="h3">
+        {countDown >= 0?(countDown):(<AlarmOffIcon sx={{ fontSize: 40 }} />)}
       </Typography>
     </Box>
 
