@@ -28,19 +28,6 @@ function ResultItem({ questionObj , index }) {
       <Typography component="h1" variant="h3">
         {index}. Took: {(Date.parse(questionObj["answeredAt"]) - Date.parse(questionObj["questionStartedAt"]))/1000} sec
       </Typography>
-      {/* <MediaDisplay mediaType="video" youtubeCode="ojeCfN6MGCI" />
-            <Grid container spacing={2}>
-                <Grid item xs={10}>
-                    <Typography component="h1" variant="h3">
-                        Question is displayed here
-                    </Typography>
-                </Grid>
-                <Grid item xs={2}>
-                    <TimerWidget />
-                </Grid>
-            </Grid> */}
-
-
     </Box>
   );
 }

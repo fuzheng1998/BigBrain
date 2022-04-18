@@ -2,7 +2,7 @@ import * as React from 'react';
 import {createContext} from 'react';
 import './App.css';
 import '@fontsource/roboto';
-import {BrowserRouter, Link, Outlet, Route, Routes} from 'react-router-dom';
+import { BrowserRouter, Link, Outlet, Route, Routes } from 'react-router-dom';
 
 // import mui tags
 import Button from '@mui/material/Button';
@@ -21,11 +21,10 @@ import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import PlayGame from './pages/PlayGame.jsx';
 import JoinGame from './pages/JoinGame.jsx'
+import AdminResults from './pages/AdminResults';
 
 // import components
-import BasicTable from "./components/GameResultTable";
-import GameResultChart from "./components/GameResultChart";
-import GameCard from './components/GameCard';
+// empty for now
 
 export const isLoginContext = createContext(false);
 export const isAdminContext = createContext(false);
@@ -39,31 +38,7 @@ function EditGame () {
   );
 }
 
-function Results () {
-    return (
-        <Box sx={{flexGrow: 1,bgcolor: '#f0f0f0',my: 8}}>
-            <Grid container spacing={5}>
-                <Grid item xs={6}>
-                    <Paper>
-                        <Card>
-                            <BasicTable/>
-                        </Card>
-                    </Paper>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper>
-                        <Card>
-                            <GameResultChart/>
-                        </Card>
-                    </Paper>
-                </Grid>
-            </Grid>
-            <Button component={Link} variant={"contained"} to={'/admin/dashboard'} size={'large'} startIcon={<ArrowBack/>}>
-                back to Dashboard
-            </Button>
-        </Box>
-    );
-}
+
 
 function EditQuestion () {
   return (
@@ -112,7 +87,7 @@ function App () {
                         <Route path={'admin/dashboard'} element={<Dashboard />} exact={true}/>
                         <Route path={'admin/edit/:gameId'} element={<EditGame />} exact={true}/>
                         <Route path={'admin/edit/:gameId/question/:questionId'} element={<EditQuestion />} exact={true}/>
-                        <Route path={'results/:gameId'} element={<Results />} exact={true}/>
+                        <Route path={'results/:gameId'} element={<AdminResults />} exact={true}/>
                         {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}
@@ -170,4 +145,6 @@ function Dashboard () {
         </div>
   );
 }
+
+
 export default App;
