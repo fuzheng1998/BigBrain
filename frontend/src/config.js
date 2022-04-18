@@ -11,4 +11,5 @@ export const QUIZ = {
 }
 
 export const PLAYER = {
+    JOIN_URL: (sessionid) => `${BACKEND_URL}/play/join/${sessionid}`
 }

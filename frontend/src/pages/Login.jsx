@@ -72,8 +72,9 @@ function Login() {
       formDataObj
     });
     loginAsUser(formDataObj).then(responseObj => {
-      const CUR_USER_TOKEN = responseObj["token"];
-      console.log(CUR_USER_TOKEN);
+      const ADMIN_TOKEN = responseObj["token"];
+      localStorage.setItem('ADMIN_TOKEN',ADMIN_TOKEN)
+      console.log(ADMIN_TOKEN);
 
     }).catch((error) => {
       console.error('Login failed', error);
