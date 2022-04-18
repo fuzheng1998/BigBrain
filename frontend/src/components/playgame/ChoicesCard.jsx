@@ -47,7 +47,7 @@ function ChoicesCard() {
 
   const choiceList = ["choice1", "choice2", "choice3", "choice4", "choice5", "choice6"];
 
-  const [playerAnswers, setPlayerAnswers] = React.useState(["choice4"]);
+  const [playerAnswers, setPlayerAnswers] = React.useState([]);
 
   const handleChoices = (event, newAnswers) => {
     setPlayerAnswers(newAnswers);

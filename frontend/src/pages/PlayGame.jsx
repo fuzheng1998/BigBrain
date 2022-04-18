@@ -10,22 +10,31 @@ import Container from '@mui/material/Container';
 // import components
 import QuestionCard from '../components/playgame/QuestionCard';
 import ChoicesCard from '../components/playgame/ChoicesCard';
+import ResultCard from '../components/playgame/ResultCard'
 
 export const PlayGameContext = React.createContext()
 
-function PlayGame () {
-    const [countDown, setCountDown] = React.useState(10);
+function PlayGame() {
+  const [countDown, setCountDown] = React.useState(10);
+  const [isEndOfGame, setIsEndOfGame] = React.useState(true);
 
-    return (
-        <PlayGameContext.Provider value={{countDown , setCountDown}}>
-        <Container maxWidth="lg">
-            <CssBaseline />
-            <QuestionCard />
-            <ChoicesCard />
-        </Container>
-        </PlayGameContext.Provider>
-    );
-  }
+  return (
+    <PlayGameContext.Provider value={{ countDown, setCountDown }}>
+      <Container maxWidth="lg">
+        <CssBaseline />
+        {
+          isEndOfGame ? (
+            <ResultCard />
+          ) : (
+            <>
+              <QuestionCard />
+              <ChoicesCard />
+            </>
+        )}
+      </Container>
+    </PlayGameContext.Provider>
+  );
+}
 
 
-  export default PlayGame;
+export default PlayGame;
