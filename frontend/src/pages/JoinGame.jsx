@@ -6,7 +6,8 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import { Link as RouterLink } from 'react-router-dom';
 
 // Calls AUTH.JOIN_URL to join
 // @param {Json} joinDataJson
@@ -136,10 +137,10 @@ function JoinGame() {
             JOIN
           </Button>
 
-          <Link sx={{ mt: 2 }} href="#" variant="body2">
+          <Link component={RouterLink} to="/login" sx={{ mt: 2 }} variant="body2">
             Are you an admin? Login here.
           </Link>
-          <Link sx={{ mt: 2 }} href="#" variant="body2">
+          <Link component={RouterLink} to="/register" sx={{ mt: 2 }} variant="body2">
             Or register here to become an admin.
           </Link>
         </Box>
