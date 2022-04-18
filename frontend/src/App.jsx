@@ -25,11 +25,8 @@ import JoinGame from './pages/JoinGame.jsx'
 // import components
 import BasicTable from "./components/GameResultTable";
 import GameResultChart from "./components/GameResultChart";
-import GameCard from './components/GameCard';
 
-export const isLoginContext = createContext(false);
-export const isAdminContext = createContext(false);
-
+export const userContext = createContext(null);
 function EditGame () {
   return (
       <div>
@@ -94,43 +91,48 @@ function Header () {
 }
 
 function App () {
-  return (
-        <div>
-            <isLoginContext.Provider value={false}>
 
-            {/* Routes nest inside one another. Nested route paths build upon
+    return (
+        <div>
+
+
+
+                {/* Routes nest inside one another. Nested route paths build upon
             parent route paths, and nested route elements render inside
             parent route elements. See the note about <Outlet> below. */}
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Layout />}>
-                        <Route index element={<JoinGame />} exact={true}/>
-                        <Route path={'login'} element={<Login />} exact={true}/>
-                        <Route path={'register'} element={<Register />} exact={true}/>
-                        <Route path="player/join" element={<JoinGame />} exact={true}/>
-                        <Route path="player/play/:sessionId" element={<PlayGame />} exact={true}/>
-                        <Route path={'admin/dashboard'} element={<Dashboard />} exact={true}/>
-                        <Route path={'admin/edit/:gameId'} element={<EditGame />} exact={true}/>
-                        <Route path={'admin/edit/:gameId/question/:questionId'} element={<EditQuestion />} exact={true}/>
-                        <Route path={'results/:gameId'} element={<Results />} exact={true}/>
-                        {/* Using path="*"" means "match anything", so this route
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Layout/>}>
+                            <Route index element={<JoinGame/>} exact={true}/>
+                            <Route path={'login'} element={<Login/>} exact={true}/>
+                            <Route path={'register'} element={<Register/>} exact={true}/>
+                            <Route path="player/join" element={<JoinGame/>} exact={true}/>
+                            <Route path="player/play/:sessionId" element={<PlayGame/>} exact={true}/>
+                            <Route path={'admin/dashboard'} element={<Dashboard/>} exact={true}/>
+                            <Route path={'admin/edit/:gameId'} element={<EditGame/>} exact={true}/>
+                            <Route path={'admin/edit/:gameId/question/:questionId'} element={<EditQuestion/>}
+                                   exact={true}/>
+                            <Route path={'results/:gameId'} element={<Results/>} exact={true}/>
+                            {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}
-                        <Route path="*" element={<NotFound />} />
-                    </Route>
-                </Routes>
-            </BrowserRouter>
-            </isLoginContext.Provider>
+                            <Route path="*" element={<NotFound/>}/>
+                        </Route>
+                    </Routes>
+                </BrowserRouter>
+
         </div>
-  );
+    );
 }
 
 function Layout () {
+    const [userToken, setUserToken] = React.useState(null);
   return (
+      <userContext.Provider value={[userToken, setUserToken]}>
         <div>
             {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
-            <Header/>
+            <Header userContextVal ={[userToken, setUserToken]}/>
             <nav>
                 <Link to="/">Home </Link>
                 <Link to="login">Login </Link>
@@ -149,6 +151,7 @@ function Layout () {
           the child routes we defined above. */}
             <Outlet />
         </div>
+      </userContext.Provider>
   );
 }
 

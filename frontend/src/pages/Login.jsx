@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -7,8 +7,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-import { AUTH } from '../config';
+import {AUTH} from '../config';
+import {userContext} from "../App";
 
 // Calls AUTH.LOGIN_URL to login
 // @param {Json} loginDataJson
@@ -62,7 +62,8 @@ export function loginAsUser(formDataObj) {
 }
 
 function Login() {
-  const handleSubmit = (event) => {
+    const [, setUserToken] = useContext(userContext);
+    const handleSubmit = (event) => {
     event.preventDefault();
     const loginFD = new FormData(event.currentTarget);
     let formDataObj = {};
@@ -74,6 +75,7 @@ function Login() {
     loginAsUser(formDataObj).then(responseObj => {
       const CUR_USER_TOKEN = responseObj["token"];
       console.log(CUR_USER_TOKEN);
+      setUserToken(CUR_USER_TOKEN);
 
     }).catch((error) => {
       console.error('Login failed', error);

@@ -1,14 +1,11 @@
 import * as React from 'react';
+import {useContext} from 'react';
 import '@fontsource/roboto';
-import {
-  AppBar,
-  Box, Link,
-  Toolbar,
-  Typography
-} from '@mui/material';
+import {AppBar, Box, Link, Toolbar, Typography} from '@mui/material';
 import Button from '@mui/material/Button';
-import { isAdminContext, isLoginContext } from '../App';
-import { useContext } from 'react';
+import {userContext} from "../App";
+import {AUTH} from "../config";
+
 function HeaderBar () {
   return (
         <Box sx={{ flexGrow: 1 }}>
@@ -17,27 +14,34 @@ function HeaderBar () {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         <Link variant={'inherit'} color={'inherit'} underline={'none'} to="/" href={'/'}>BigBrain</Link>
                     </Typography>
-                    <LoginButton />
+                    <LoginOutButton />
                 </Toolbar>
             </AppBar>
         </Box>
   );
 }
-function LoginButton () {
-  const isLogin = useContext(isLoginContext);
-  const isAdmin = useContext(isAdminContext);
-  if (isAdmin) {
-    if (isLogin) {
-      return (
-                <Button>Logout</Button>
-      );
-    } else {
-      return (
-                <Button>Login</Button>
-      );
+function LoginOutButton () {
+    const [user, setUser] = useContext(userContext);
+    const logout = ()=>{
+        fetch(AUTH.LOGOUT_URL,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': user.toString()
+                },
+            })
+            .then(r => {
+                if (r.ok) {
+                    setUser(null);
+                }
+            })
+            .catch(err => console.log(err));
     }
-  } else {
-    return null;
-  }
+    if (user === null) {
+        return <Button variant="text" color={'inherit'}>login</Button>;
+    } else {
+        return <Button variant="text" color={'inherit'} onClick={logout}>logout</Button>;
+    }
 }
 export default HeaderBar;
