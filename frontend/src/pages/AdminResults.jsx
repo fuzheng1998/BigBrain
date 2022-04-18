@@ -8,19 +8,26 @@ import Card from "@mui/material/Card";
 import { ArrowBack } from "@mui/icons-material";
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
+import Typography from '@mui/material/Typography';
 
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 
 import GameResultTable from "../components/GameResultTable";
 import GameResultChart from "../components/GameResultChart";
 
+
+
 function AdminResults() {
+  let { gameId } = useParams();
   return (
     <Container maxWidth="lg">
       <CssBaseline />
+      <Typography component="h1" variant="h3">
+          Results for game {gameId}
+      </Typography>
       <Box
         sx={{
-          mt: 8,
+          mt: 1,
           p: 0.05,
           display: 'flex',
           flexDirection: 'column',
