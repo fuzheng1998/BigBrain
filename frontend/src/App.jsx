@@ -41,7 +41,7 @@ function EditGame () {
 
 function Results () {
     return (
-        <Box sx={{flexGrow: 1}}>
+        <Box sx={{flexGrow: 1,bgcolor: '#f0f0f0',my: 8}}>
             <Grid container spacing={5}>
                 <Grid item xs={6}>
                     <Paper>
