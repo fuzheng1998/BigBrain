@@ -27,6 +27,10 @@ export default function GameAddDialog(props) {
             }).then(response=>{
             if (response.ok) {
                 console.log("game added");
+            } else {
+                return response.json().then(errorJson => {
+                    throw Error(`${response.status} ${response.statusText} [${errorJson["error"]}]`);
+                });
             }
         })
             .catch(error => {

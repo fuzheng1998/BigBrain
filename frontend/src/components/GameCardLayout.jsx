@@ -20,15 +20,14 @@ export default function GameCardLayout() {
     //     return result
     // }
 
-    useEffect(async () => {
-        await fetch(QUIZ.GET_LIST_URL, {
+    useEffect( () => {
+        fetch(QUIZ.GET_LIST_URL, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': user
             }
         }).then(res => {
-            console.log(res.status)
             if (res.status === 200) {
                 return res.json();
             }
@@ -41,12 +40,14 @@ export default function GameCardLayout() {
                 });
             }
         }).then(qzs => {
-            let result = [];
-            let quizArray = qzs['quizzes']
-            for(let i=0,len=quizArray.length;i<len;i+=3){
-                result.push(quizArray.slice(i,i+3));
-            }
-            setQuizCollection(result);
+            // let result = [];
+            // let quizArray = qzs['quizzes']
+            // for(let i=0,len=quizArray.length;i<len;i+=3){
+            //     result.push(quizArray.slice(i,i+3));
+            // }
+            // setQuizCollection(result);
+            setQuizCollection(qzs['quizzes']);
+            console.log(qzs['quizzes'])
             console.log(result)
         }).catch(err => console.log(err));
 
@@ -58,7 +59,7 @@ export default function GameCardLayout() {
     return (
         <Box sx={{flexGrow: 1}}>
             <Grid container spacing={1}>
-                <Grid container item spacing={3}>
+                {/* <Grid container item spacing={3}>
                     <Grid item xs={4}>
                         <GameCard />
                     </Grid>
@@ -79,42 +80,51 @@ export default function GameCardLayout() {
                     <Grid item xs={4}>
                         <GameCard/>
                     </Grid>
-                </Grid>
-                {/*<Grid container item spacing={3}>*/}
-                {/*    <Grid item xs={4}>*/}
-                {/*        <GameCard/>*/}
-                {/*    </Grid>*/}
-                {/*    <Grid item xs={4}>*/}
-                {/*        <GameCard/>*/}
-                {/*    </Grid>*/}
-                {/*    <Grid item xs={4}>*/}
-                {/*        <GameCard/>*/}
-                {/*    </Grid>*/}
-                {/*</Grid>*/}
-                {quizCollection.map((rowData, row_idx) => {
-                    return <GameCardRow rowData={rowData} key={row_idx}/>
+                </Grid> 
+                <Grid container item spacing={3}>
+                   <Grid item xs={4}>
+                       <GameCard/>
+                   </Grid>
+                   <Grid item xs={4}>
+                       <GameCard/>
+                   </Grid>
+                   <Grid item xs={4}>
+                       <GameCard/>
+                   </Grid>
+                </Grid>*/}
+
+                {quizCollection.map((quizItem,i) => {
+                    return (
+                        <Grid item xs={4} key={i}>
+                            <GameCard gameData ={quizItem}/>
+                        </Grid>
+                    );
                 })}
+
+                {/* {quizCollection.map((rowData, row_idx) => {
+                    return <GameCardRow rowData={rowData} key={row_idx}/>
+                })} */}
 
             </Grid>
         </Box>
     );
 };
 
-function GameCardRow(props) {
-    const rowData = props.rowData
-    return (
-        <Grid container item spacing={3}>
-            {rowData.map(
-                (itemData, col_idx)=>{
-                    // console.log(itemData);
-                    return (
-                        <Grid item xs={4} key={col_idx}>
-                            <GameCard gameData ={itemData} />
-                        </Grid>
-                    )
-                }
-            )}
+// function GameCardRow(props) {
+//     const rowData = props.rowData
+//     return (
+//         <Grid container item spacing={3}>
+//             {rowData.map(
+//                 (itemData, col_idx)=>{
+//                     // console.log(itemData);
+//                     return (
+//                         <Grid item xs={4} key={col_idx}>
+//                             <GameCard gameData ={itemData} />
+//                         </Grid>
+//                     )
+//                 }
+//             )}
 
-        </Grid>
-    );
-}
+//         </Grid>
+//     );
+// }
