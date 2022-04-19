@@ -19,7 +19,6 @@ function QuestionEditForm () {
   };
   return (
       <>
-
           <Autocomplete
               disablePortal
               options={questionType}

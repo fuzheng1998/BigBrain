@@ -1,4 +1,5 @@
 import * as data from './config.json';
+
 const BACKEND_PORT = data.BACKEND_PORT
 
 export const BACKEND_URL = `http://localhost:${BACKEND_PORT}`
@@ -8,6 +9,10 @@ export const AUTH = {
     LOGOUT_URL:`${BACKEND_URL}/admin/auth/logout`
 }
 export const QUIZ = {
+    ADD_URL: `${BACKEND_URL}/admin/quiz/new`,
+    GET_LIST_URL: `${BACKEND_URL}/admin/quiz`,
+    DELETE_URL: `${BACKEND_URL}/admin/quiz/`,
+    PUT_URL: `${BACKEND_URL}/admin/quiz/`,
 }
 
 export const PLAYER = {

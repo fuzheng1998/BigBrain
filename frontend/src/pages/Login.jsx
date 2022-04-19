@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -7,6 +7,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {userContext} from "../App";
+import {useNavigate} from "react-router-dom"
 
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -64,7 +66,9 @@ function loginAsUser(formDataObj) {
 }
 
 function Login() {
-  const handleSubmit = (event) => {
+    const [, setUserToken] = useContext(userContext);
+    let navigate = useNavigate();
+    const handleSubmit = (event) => {
     event.preventDefault();
     const loginFD = new FormData(event.currentTarget);
     let formDataObj = {};
@@ -74,10 +78,11 @@ function Login() {
       formDataObj
     });
     loginAsUser(formDataObj).then(responseObj => {
-      const ADMIN_TOKEN = responseObj["token"];
-      localStorage.setItem('ADMIN_TOKEN',ADMIN_TOKEN)
-      console.log(ADMIN_TOKEN);
-
+      const CUR_USER_TOKEN = responseObj["token"];
+      console.log(CUR_USER_TOKEN);
+      setUserToken(CUR_USER_TOKEN);
+      localStorage.setItem('auth_token', CUR_USER_TOKEN);
+      navigate('../admin/dashboard');
     }).catch((error) => {
       console.error('Login failed', error);
       alert(error);

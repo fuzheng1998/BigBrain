@@ -13,9 +13,7 @@ import HeaderBar from './components/Header';
 import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
 import {ArrowBack} from "@mui/icons-material";
-import GameCardLayout from "./components/GameCardLayout";
-import GameAddDialog from "./components/GameAddDialog";
-
+import Dashboard from "./components/Dashboard";
 // import pages
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
@@ -26,9 +24,8 @@ import AdminResults from './pages/AdminResults';
 // import components
 // empty for now
 
-export const isLoginContext = createContext(false);
-export const isAdminContext = createContext(false);
 
+export const userContext = createContext(null);
 function EditGame () {
   return (
       <div>
@@ -69,11 +66,9 @@ function Header () {
 }
 
 function App () {
-  return (
+    return (
         <div>
-            <isLoginContext.Provider value={false}>
-
-            {/* Routes nest inside one another. Nested route paths build upon
+                {/* Routes nest inside one another. Nested route paths build upon
             parent route paths, and nested route elements render inside
             parent route elements. See the note about <Outlet> below. */}
             <BrowserRouter>
@@ -91,21 +86,23 @@ function App () {
                         {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}
-                        <Route path="*" element={<NotFound />} />
-                    </Route>
-                </Routes>
-            </BrowserRouter>
-            </isLoginContext.Provider>
+                            <Route path="*" element={<NotFound/>}/>
+                        </Route>
+                    </Routes>
+                </BrowserRouter>
+
         </div>
-  );
+    );
 }
 
 function Layout () {
+    const [userToken, setUserToken] = React.useState(null);
   return (
+      <userContext.Provider value={[userToken, setUserToken]}>
         <div>
             {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
-            <Header/>
+            <Header userContextVal ={[userToken, setUserToken]}/>
             <nav>
                 <Link to="/">Home </Link>
                 <Link to="login">Login </Link>
@@ -124,27 +121,8 @@ function Layout () {
           the child routes we defined above. */}
             <Outlet />
         </div>
+      </userContext.Provider>
   );
 }
-
-function Dashboard () {
-    const [open, setOpen] = React.useState(false);
-    const dialogClose = () => {
-        setOpen(false);
-    };
-    const dialogOpen = () => {
-        setOpen(true);
-    };
-    return (
-        <div>
-            <h1>Dashboard</h1>
-            <Button variant="outlined" onClick={dialogOpen}>add game</Button>
-            <GameAddDialog status = {open} closeHandler = {dialogClose}/>
-            <GameCardLayout/>
-
-        </div>
-  );
-}
-
 
 export default App;
