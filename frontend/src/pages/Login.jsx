@@ -9,6 +9,7 @@ import Container from '@mui/material/Container';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {AUTH} from '../config';
 import {userContext} from "../App";
+import {useNavigate} from "react-router-dom"
 
 // Calls AUTH.LOGIN_URL to login
 // @param {Json} loginDataJson
@@ -63,6 +64,7 @@ export function loginAsUser(formDataObj) {
 
 function Login() {
     const [, setUserToken] = useContext(userContext);
+    let navigate = useNavigate();
     const handleSubmit = (event) => {
     event.preventDefault();
     const loginFD = new FormData(event.currentTarget);
@@ -77,6 +79,7 @@ function Login() {
       console.log(CUR_USER_TOKEN);
       setUserToken(CUR_USER_TOKEN);
       localStorage.setItem('auth_token', CUR_USER_TOKEN);
+      navigate('../admin/dashboard');
 
     }).catch((error) => {
       console.error('Login failed', error);
