@@ -15,7 +15,7 @@ import { AUTH } from '../config';
 // Calls AUTH.LOGIN_URL to login
 // @param {Json} loginDataJson
 // @returns {Promise.Json} response body from login request
-export function requestLoginAsUser(loginDataJson) {
+function requestLoginAsUser(loginDataJson) {
   const loginRequest = new Request(AUTH.LOGIN_URL,
       {
           method: 'POST',
@@ -49,7 +49,7 @@ export function requestLoginAsUser(loginDataJson) {
 // Perform actions for login
 // @param {Object} formDataObj
 // @returns {Promise.Object} response body from login request
-export function loginAsUser(formDataObj) {
+function loginAsUser(formDataObj) {
   //Convert object to json
   let loginDataJson = "";
   loginDataJson = JSON.stringify(formDataObj);
