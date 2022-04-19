@@ -1,7 +1,13 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import {ArgumentAxis, BarSeries, Chart, ValueAxis,} from '@devexpress/dx-react-chart-material-ui';
-import {EventTracker, HoverState} from '@devexpress/dx-react-chart';
+import {EventTracker, HoverState, Title} from '@devexpress/dx-react-chart';
+
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 
 
 const data = [
@@ -14,34 +20,73 @@ const data = [
     { year: '2010', population: 6.930 },
 ];
 
-export default class GameResultChart extends React.PureComponent {
-    constructor(props) {
-        super(props);
+const data2 = [
+    { year: '1950', population: 100 },
+    { year: '1960', population: 90 },
+    { year: '1970', population: 30 },
+    { year: '1980', population: 80 },
+    { year: '1990', population: 66 },
+    { year: '2000', population: 66 },
+    { year: '2010', population: 66 },
+];
 
-        this.state = {
-            data,
-        };
-    }
 
-    render() {
-        const { data: chartData } = this.state;
+const data3 = [
+    { year: '1950', population: 88 },
+    { year: '1960', population: 88 },
+    { year: '1970', population: 88 },
+    { year: '1980', population: 88 },
+    { year: '1990', population: 88 },
+    { year: '2000', population: 88 },
+    { year: '2010', population: 88 },
+];
 
-        return (
-            <Paper>
-                <Chart
-                    data={chartData}
-                >
-                    <ArgumentAxis />
-                    <ValueAxis />
+// a single chart
+function SingleGameResult({ data , type }){
+    return(
+        <Chart data={data}>
+            <ArgumentAxis />
+            <ValueAxis />
 
-                    <BarSeries
-                        valueField="population"
-                        argumentField="year"
-                    />
-                    <EventTracker />
-                    <HoverState />
-                </Chart>
-            </Paper>
-        );
-    }
+            <BarSeries
+                valueField="population"
+                argumentField="year"
+            />
+            <EventTracker />
+            <HoverState />
+        </Chart>
+    )
+}
+
+export default function GameResultChart(){
+    // state types: "correct" "time" "most"
+    const [tabValue, setTabValue] = React.useState("correct");
+
+    const handleTabChange = (event, newValue) => {
+        setTabValue(newValue);
+    };
+
+    return (
+        <Paper>
+            <TabContext value={tabValue}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <TabList onChange={handleTabChange} aria-label="result tabs" variant="scrollable">
+                    <Tab label="Percentage of correct" value="correct"/>
+                    <Tab label="Average Time" value="time"/>
+                    <Tab label="Most choosed answer" value="most"/>
+                </TabList>
+                </Box>
+                <TabPanel value="correct">
+                    <SingleGameResult data={data} type='correct'/>
+                </TabPanel>
+                <TabPanel value="time">
+                    <SingleGameResult data={data2} type='time'/>
+                </TabPanel>
+                <TabPanel value="most">
+                    <SingleGameResult data={data3} type='most'/>
+                </TabPanel>
+                
+            </TabContext>
+        </Paper>
+    );
 }

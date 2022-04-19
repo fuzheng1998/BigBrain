@@ -11,38 +11,29 @@ import Grid from '@mui/material/Grid';
 import MediaDisplay from './MediaDisplay.jsx'
 import TimerWidget from './TimerWidget.jsx'
 
-function QuestionCard() {
+function LobbyCard() {
     return (
+        <>
+        <Typography component="h1" variant="h3">
+                Waiting for the game to start...
+        </Typography>
         <Box
             sx={{
-                my: 2,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'stretch',
-                // alignContent: 'stretch',
                 borderRadius: 2,
                 p: 1,
                 bgcolor: '#f0f0f0',
-                minHeight: '60vh',
-                width: '100%'
+                minHeight: '80vh',
+                width:'100%',
             }}
         >
-            <MediaDisplay mediaType="video" youtubeCode="ojeCfN6MGCI" />
-            <Grid container spacing={2}>
-                <Grid item xs={10}>
-                    <Typography component="h1" variant="h3">
-                        Question is displayed here
-                    </Typography>
-                </Grid>
-                <Grid item xs={2}>
-                    <TimerWidget />
-                </Grid>
-            </Grid>
-
-
+            <MediaDisplay mediaType="video" youtubeCode="EiKK04Ht8QI" />
         </Box>
+        </>
     );
 }
 
 
-export default QuestionCard;
+export default LobbyCard;

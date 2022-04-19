@@ -6,7 +6,8 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import { Link as RouterLink } from 'react-router-dom';
 
 import { AUTH } from '../config';
 
@@ -169,7 +170,7 @@ function Register() {
             REGISTER
           </Button>
 
-          <Link sx={{ mt: 2 }} href="#" variant="body2">
+          <Link component={RouterLink} to="/login" sx={{ mt: 2 }} variant="body2">
             Have an account? Back to login page
           </Link>
         </Box>

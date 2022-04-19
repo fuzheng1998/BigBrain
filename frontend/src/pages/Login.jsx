@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { Link as RouterLink } from 'react-router-dom';
+
 import { AUTH } from '../config';
 
 // Calls AUTH.LOGIN_URL to login
@@ -72,8 +74,9 @@ function Login() {
       formDataObj
     });
     loginAsUser(formDataObj).then(responseObj => {
-      const CUR_USER_TOKEN = responseObj["token"];
-      console.log(CUR_USER_TOKEN);
+      const ADMIN_TOKEN = responseObj["token"];
+      localStorage.setItem('ADMIN_TOKEN',ADMIN_TOKEN)
+      console.log(ADMIN_TOKEN);
 
     }).catch((error) => {
       console.error('Login failed', error);
@@ -138,10 +141,10 @@ function Login() {
             LOGIN
           </Button>
 
-          <Link sx={{ mt: 2 }} href="#" variant="body2">
+          <Link component={RouterLink} to="/register" sx={{ mt: 2 }} variant="body2">
             Click Here to register
           </Link>
-          <Link sx={{ mt: 2 }} href="#" variant="body2">
+          <Link component={RouterLink} to="/player/join" sx={{ mt: 2 }} variant="body2">
             Want to Join a game? Click Here
           </Link>
         </Box>
