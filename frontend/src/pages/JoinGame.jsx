@@ -6,20 +6,78 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { Link as RouterLink } from 'react-router-dom';
 
+// Calls AUTH.JOIN_URL to join
+// @param {Json} joinDataJson
+// @returns {Promise.Json} response body from join request
+export function requestJoinAsUser(joinDataJson, sessionID) {
+  const joinRequest = new Request(PLAYER.JOIN_URL(sessionID),
+      {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: joinDataJson
+      });
+
+  console.log(joinRequest);
+
+  return fetch(joinRequest)
+      .then(response => {
+          if (response.ok) {
+              return response.json();
+          } else {
+              return response.json().then(errorJson => {
+                  throw Error(`${response.status} ${response.statusText} [${errorJson["error"]}]`);
+              });
+          }
+      })
+      .then(responseObj => {
+          // console.log("requestJoinAsUser():"+ JSON.stringify(responseObj));
+          return responseObj;
+      })
+      .catch((error) => {
+          console.error('function requestJoinAsUser fetch failed', error);
+          throw error;
+      });
+
+}
+
+// Perform actions for join
+// @param {Object} formDataObj
+// @returns {Promise.Object} response body from join request
+export function JoinAsUser(formDataObj) {
+  //Convert object to json
+  let joinDataJson = "";
+  joinDataJson = JSON.stringify(formDataObj["name"]);
+
+  return requestJoinAsUser(joinDataJson, sessionID)
+      .then(responseObj => {
+          return responseObj;
+      }).catch(error => {
+          console.error('function joinAsUser failed', error);
+          throw(error);
+      });
+}
 
 
 function JoinGame() {
   const handleSubmit = (event) => {
     event.preventDefault();
-    const loginFD = new FormData(event.currentTarget);
+    const joinFD = new FormData(event.currentTarget);
     let formDataObj = {};
-    loginFD.forEach((value, key) => formDataObj[key] = value);
+    joinFD.forEach((value, key) => formDataObj[key] = value);
 
-    console.log({
-      formDataObj
+    console.log({formDataObj});
+
+    JoinAsUser(formDataObj).then(responseObj => {
+      const PLAYER_ID = responseObj["playerId"];
+      localStorage.setItem('PLAYER_ID',PLAYER_ID)
+      console.log(PLAYER_ID);
+
+    }).catch((error) => {
+      console.error('Join Game failed', error);
+      alert(error);
     });
 
   };
@@ -79,10 +137,10 @@ function JoinGame() {
             JOIN
           </Button>
 
-          <Link sx={{ mt: 2 }} href="#" variant="body2">
+          <Link component={RouterLink} to="/login" sx={{ mt: 2 }} variant="body2">
             Are you an admin? Login here.
           </Link>
-          <Link sx={{ mt: 2 }} href="#" variant="body2">
+          <Link component={RouterLink} to="/register" sx={{ mt: 2 }} variant="body2">
             Or register here to become an admin.
           </Link>
         </Box>

@@ -7,14 +7,17 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {AUTH} from '../config';
 import {userContext} from "../App";
 import {useNavigate} from "react-router-dom"
+
+import { Link as RouterLink } from 'react-router-dom';
+
+import { AUTH } from '../config';
 
 // Calls AUTH.LOGIN_URL to login
 // @param {Json} loginDataJson
 // @returns {Promise.Json} response body from login request
-export function requestLoginAsUser(loginDataJson) {
+function requestLoginAsUser(loginDataJson) {
   const loginRequest = new Request(AUTH.LOGIN_URL,
       {
           method: 'POST',
@@ -48,7 +51,7 @@ export function requestLoginAsUser(loginDataJson) {
 // Perform actions for login
 // @param {Object} formDataObj
 // @returns {Promise.Object} response body from login request
-export function loginAsUser(formDataObj) {
+function loginAsUser(formDataObj) {
   //Convert object to json
   let loginDataJson = "";
   loginDataJson = JSON.stringify(formDataObj);
@@ -80,7 +83,6 @@ function Login() {
       setUserToken(CUR_USER_TOKEN);
       localStorage.setItem('auth_token', CUR_USER_TOKEN);
       navigate('../admin/dashboard');
-
     }).catch((error) => {
       console.error('Login failed', error);
       alert(error);
@@ -144,10 +146,10 @@ function Login() {
             LOGIN
           </Button>
 
-          <Link sx={{ mt: 2 }} href="#" variant="body2">
+          <Link component={RouterLink} to="/register" sx={{ mt: 2 }} variant="body2">
             Click Here to register
           </Link>
-          <Link sx={{ mt: 2 }} href="#" variant="body2">
+          <Link component={RouterLink} to="/player/join" sx={{ mt: 2 }} variant="body2">
             Want to Join a game? Click Here
           </Link>
         </Box>
