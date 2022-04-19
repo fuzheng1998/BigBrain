@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom'
 
 // import components
 import QuestionCard from '../components/playgame/QuestionCard';
@@ -48,7 +49,7 @@ export function requestGameStatus(playerId) {
           return responseObj;
       })
       .catch((error) => {
-          console.error('function requestGameStatus fetch failed', error);
+          // console.error('function requestGameStatus fetch failed', error);
           throw error;
       });
 
@@ -64,16 +65,19 @@ function updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, se
       .then(responseObj => {
           setIsGameStart(responseObj["started"]);
           console.log(responseObj)
-          // return responseObj;
+          return true;
       }).catch(error => {
           if(isGameStart){
             setIsEndOfGame(true);
+            return true;
           }
           else{
-            console.error('function checkGameStatus failed', error);
-            navigate('/');
-            alert(error);
-            throw(error);
+              console.error('function checkGameStatus failed', error);
+              
+              alert(error);
+              navigate('/');
+              // throw(error);
+              return false;
           }
       });
 }
@@ -84,14 +88,18 @@ function PlayGame() {
   const [isGameStart, setIsGameStart] = React.useState(false);
   const [isEndOfGame, setIsEndOfGame] = React.useState(false);
   const navigate = useNavigate();
+  
   // before start: false,false
   // during game: true,false
   // end game: true,true
 
   const playerId = localStorage.getItem('PLAYER_ID')
-  React.useEffect(() => {
-    const interval = setInterval(() => updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame,navigate), 1000);
-
+  React.useEffect(async () => {
+    // perform initial check and abort if not valid
+    const initialCheck = await updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame,navigate)
+    if(initialCheck){
+      const interval = setInterval(() => updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame,navigate), 1000);
+    }
     return () => {
       clearInterval(interval);
     };
