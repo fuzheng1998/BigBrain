@@ -4,10 +4,12 @@ import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Te
 import Button from "@mui/material/Button";
 import {QUIZ} from "../config";
 import {userContext} from "../App";
+import {useNavigate} from "react-router-dom";
 
 export default function GameAddDialog(props) {
     const [user,] = useContext(userContext);
     console.log(user);
+    let navigate = useNavigate();
     const newGameNameInput = useRef(null);
     let gameAddHandler = () => {
         let newGameName  = newGameNameInput.current.value;
@@ -21,12 +23,13 @@ export default function GameAddDialog(props) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': user
+                    'Authorization': localStorage.getItem('auth_token')
                 },
                 body: gameDataJson,
             }).then(response=>{
             if (response.ok) {
                 console.log("game added");
+                navigate(0);
             } else {
                 return response.json().then(errorJson => {
                     throw Error(`${response.status} ${response.statusText} [${errorJson["error"]}]`);

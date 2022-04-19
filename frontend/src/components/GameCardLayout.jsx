@@ -25,7 +25,7 @@ export default function GameCardLayout() {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': user
+                'Authorization': localStorage.getItem('auth_token')
             }
         }).then(res => {
             if (res.status === 200) {
@@ -48,7 +48,6 @@ export default function GameCardLayout() {
             // setQuizCollection(result);
             setQuizCollection(qzs['quizzes']);
             console.log(qzs['quizzes'])
-            console.log(result)
         }).catch(err => console.log(err));
 
     }, []);
@@ -80,7 +79,7 @@ export default function GameCardLayout() {
                     <Grid item xs={4}>
                         <GameCard/>
                     </Grid>
-                </Grid> 
+                </Grid>
                 <Grid container item spacing={3}>
                    <Grid item xs={4}>
                        <GameCard/>

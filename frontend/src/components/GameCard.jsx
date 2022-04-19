@@ -17,11 +17,11 @@ import {
     Typography
 } from '@mui/material';
 import {useNavigate} from 'react-router-dom';
+import {QUIZ} from "../config";
 
 function GameCard(props) {
-    //fake data
-    const gameId = 1;
-    const gameData = props.gameData
+    const gameData = props.gameData;
+    const gameId = gameData.id;
     const navigate = useNavigate();
     const [gameState, setGameState] = React.useState(false);
     const [sessionDialogOpen, setSessionDialogOpen] = React.useState(false);
@@ -56,11 +56,21 @@ function GameCard(props) {
     }
     const editHandler = () => {
         console.log('edit');
-        navigate('../admin/edit/' + gameId);
+        navigate('../admin/edit/' + gameId, {state: {gameData: gameData}});
     }
     const deleteHandler = () => {
-        console.log('delete');
-        navigate('../admin/dashboard/' + gameId);
+        console.log('delete game'+gameId);
+        const response = fetch(QUIZ.DELETE_URL+ gameId, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('auth_token')
+            }
+        }).catch(error => {
+            console.log(error);
+        });
+        navigate(0);
+        console.log(gameId+'deleted');
     }
     const copySessionId = () => {
         const data = document.getElementById('sessionId');
@@ -75,26 +85,25 @@ function GameCard(props) {
     }
     return (
         <Card sx={{maxWidth: 345}}>
-            <p>{gameData.name}</p>
             <CardMedia
                 component="img"
                 alt="green iguana"
                 height="140"
-                image="/static/images/cards/contemplative-reptile.jpg"
+                image="{gameData.thumbnail}"
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    gameName
+                    {gameData.name}
                 </Typography>
                 <List>
                     <ListItem>
                         <ListItemText
-                            primary="Time limitation: 10 mins"
+                            primary="Time limitation: 10s"
                         />
                     </ListItem>
                     <ListItem>
                         <ListItemText
-                            primary="Quantity: 10"
+                            primary="Quantity: {gameData.questions.length}"
                         />
                     </ListItem>
                 </List>

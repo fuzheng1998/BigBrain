@@ -30,12 +30,13 @@ function LoginOutButton () {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': user.toString()
+                    'Authorization': localStorage.getItem('auth_token')
                 },
             })
             .then(r => {
                 if (r.ok) {
                     setUser(null);
+                    localStorage.removeItem('auth_token');
                 }
             })
             .catch(err => console.log(err));

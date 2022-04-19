@@ -10,7 +10,9 @@ export const AUTH = {
 }
 export const QUIZ = {
     ADD_URL: `${BACKEND_URL}/admin/quiz/new`,
-    GET_LIST_URL: `${BACKEND_URL}/admin/quiz`
+    GET_LIST_URL: `${BACKEND_URL}/admin/quiz`,
+    DELETE_URL: `${BACKEND_URL}/admin/quiz/`,
+    PUT_URL: `${BACKEND_URL}/admin/quiz/`,
 }
 
 export const PLAYER = {
