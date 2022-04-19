@@ -13,6 +13,9 @@ export const QUIZ = {
     GET_LIST_URL: `${BACKEND_URL}/admin/quiz`,
     DELETE_URL: `${BACKEND_URL}/admin/quiz/`,
     PUT_URL: `${BACKEND_URL}/admin/quiz/`,
+    GET_SINGLE_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}`,
+    START_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/start`,
+    END_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/end`
 }
 
 export const PLAYER = {

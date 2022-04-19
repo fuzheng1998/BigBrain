@@ -40,12 +40,6 @@ export default function GameCardLayout() {
                 });
             }
         }).then(qzs => {
-            // let result = [];
-            // let quizArray = qzs['quizzes']
-            // for(let i=0,len=quizArray.length;i<len;i+=3){
-            //     result.push(quizArray.slice(i,i+3));
-            // }
-            // setQuizCollection(result);
             setQuizCollection(qzs['quizzes']);
             console.log(qzs['quizzes'])
         }).catch(err => console.log(err));
@@ -58,40 +52,6 @@ export default function GameCardLayout() {
     return (
         <Box sx={{flexGrow: 1}}>
             <Grid container spacing={1}>
-                {/* <Grid container item spacing={3}>
-                    <Grid item xs={4}>
-                        <GameCard />
-                    </Grid>
-                    <Grid item xs={4}>
-                        <GameCard/>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <GameCard/>
-                    </Grid>
-                </Grid>
-                <Grid container item spacing={3}>
-                    <Grid item xs={4}>
-                        <GameCard/>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <GameCard/>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <GameCard/>
-                    </Grid>
-                </Grid>
-                <Grid container item spacing={3}>
-                   <Grid item xs={4}>
-                       <GameCard/>
-                   </Grid>
-                   <Grid item xs={4}>
-                       <GameCard/>
-                   </Grid>
-                   <Grid item xs={4}>
-                       <GameCard/>
-                   </Grid>
-                </Grid>*/}
-
                 {quizCollection.map((quizItem,i) => {
                     return (
                         <Grid item xs={4} key={i}>
@@ -99,31 +59,8 @@ export default function GameCardLayout() {
                         </Grid>
                     );
                 })}
-
-                {/* {quizCollection.map((rowData, row_idx) => {
-                    return <GameCardRow rowData={rowData} key={row_idx}/>
-                })} */}
-
             </Grid>
         </Box>
     );
 };
 
-// function GameCardRow(props) {
-//     const rowData = props.rowData
-//     return (
-//         <Grid container item spacing={3}>
-//             {rowData.map(
-//                 (itemData, col_idx)=>{
-//                     // console.log(itemData);
-//                     return (
-//                         <Grid item xs={4} key={col_idx}>
-//                             <GameCard gameData ={itemData} />
-//                         </Grid>
-//                     )
-//                 }
-//             )}
-
-//         </Grid>
-//     );
-// }
