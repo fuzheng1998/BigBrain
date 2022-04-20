@@ -8,12 +8,16 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 import { Link as RouterLink } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+
+import { PLAYER } from '../config.js';
 
 // Calls AUTH.JOIN_URL to join
 // @param {Json} joinDataJson
 // @returns {Promise.Json} response body from join request
-export function requestJoinAsUser(joinDataJson, sessionID) {
-  const joinRequest = new Request(PLAYER.JOIN_URL(sessionID),
+function requestJoinAsUser(joinDataJson, sessionId) {
+  console.log(joinDataJson);
+  const joinRequest = new Request(PLAYER.JOIN_URL(sessionId),
       {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -46,12 +50,12 @@ export function requestJoinAsUser(joinDataJson, sessionID) {
 // Perform actions for join
 // @param {Object} formDataObj
 // @returns {Promise.Object} response body from join request
-export function JoinAsUser(formDataObj) {
+function JoinAsUser(formDataObj, sessionId) {
   //Convert object to json
   let joinDataJson = "";
-  joinDataJson = JSON.stringify(formDataObj["name"]);
+  joinDataJson = JSON.stringify({"name":formDataObj["playername"]});
 
-  return requestJoinAsUser(joinDataJson, sessionID)
+  return requestJoinAsUser(joinDataJson, sessionId)
       .then(responseObj => {
           return responseObj;
       }).catch(error => {
@@ -62,6 +66,10 @@ export function JoinAsUser(formDataObj) {
 
 
 function JoinGame() {
+  // fine if sessionId is undefined
+  const { sessionId } = useParams();
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const joinFD = new FormData(event.currentTarget);
@@ -70,11 +78,12 @@ function JoinGame() {
 
     console.log({formDataObj});
 
-    JoinAsUser(formDataObj).then(responseObj => {
+    JoinAsUser(formDataObj,sessionId).then(responseObj => {
+      // receive player id and navigate to game page
       const PLAYER_ID = responseObj["playerId"];
       localStorage.setItem('PLAYER_ID',PLAYER_ID)
       console.log(PLAYER_ID);
-
+      navigate(`/player/play/${sessionId}`);
     }).catch((error) => {
       console.error('Join Game failed', error);
       alert(error);
@@ -117,6 +126,7 @@ function JoinGame() {
             name="sessionID"
             autoComplete="sessionID"
             autoFocus
+            defaultValue={sessionId}
           />
           <TextField
             margin="normal"

@@ -241,7 +241,8 @@ function GameCard(props) {
     // const data = document.getElementById('sessionId');
     // todo generate new session link
     // const promise = navigator.clipboard.writeText(data.innerText);
-    await navigator.clipboard.writeText(sessionId);
+    const currentOriginPath = window.location.origin;
+    await navigator.clipboard.writeText(`${currentOriginPath}/player/join/${sessionId}`);
     //close copy prompt
     handleSessionDialogClose();
     // promise.then(function () {
@@ -290,9 +291,9 @@ function GameCard(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSessionDialogClose}>Disagree</Button>
+          {/* <Button onClick={handleSessionDialogClose}>Disagree</Button> */}
           <Button onClick={copySessionId} autoFocus>
-            copy
+            Copy URL
           </Button>
         </DialogActions>
       </Dialog>

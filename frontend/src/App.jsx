@@ -78,6 +78,7 @@ function App () {
                         <Route path={'login'} element={<Login />} exact={true}/>
                         <Route path={'register'} element={<Register />} exact={true}/>
                         <Route path="player/join" element={<JoinGame />} exact={true}/>
+                        <Route path="player/join/:sessionId" element={<JoinGame />} exact={true}/>
                         <Route path="player/play/:sessionId" element={<PlayGame />} exact={true}/>
                         <Route path={'admin/dashboard'} element={<Dashboard />} exact={true}/>
                         <Route path={'admin/edit/:gameId'} element={<EditGame />} exact={true}/>
