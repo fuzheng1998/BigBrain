@@ -15,7 +15,9 @@ export const QUIZ = {
     PUT_URL: `${BACKEND_URL}/admin/quiz/`,
     GET_SINGLE_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}`,
     START_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/start`,
-    END_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/end`
+    END_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/end`,
+    ADVANCE_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/advance`,
+    
 }
 
 export const PLAYER = {

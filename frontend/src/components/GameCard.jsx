@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { QUIZ } from "../config";
+import { flexbox } from '@mui/system';
 
 // Calls QUIZ.START_URL to start game
 // @param {Json} quizId , adminToken
@@ -91,7 +92,41 @@ function requestGameEnd(quizId, adminToken) {
     });
 }
 
+// Calls QUIZ.ADVANCE_URL to advance to next game question
+// @param {Json} quizId , adminToken
+// @returns {Promise.Json} response body from end game request (empty)
+function requestGameAdvance(quizId, adminToken) {
+  const advanceRequest = new Request(QUIZ.ADVANCE_URL(quizId),
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: adminToken
+      },
+      body: undefined
+    });
 
+  console.log(advanceRequest);
+
+  return fetch(advanceRequest)
+    .then(response => {
+      console.log(response);
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.json().then(errorJson => {
+          throw Error(`${response.status} ${response.statusText} [${errorJson["error"]}]`);
+        });
+      }
+    })
+    .then(responseObj => {
+      return responseObj;
+    })
+    .catch((error) => {
+      console.error('function requestGameAdvance fetch failed', error);
+      throw error;
+    });
+}
 
 // Calls QUIZ.GET_SINGLE_URL to get game data
 // @param {Json} quizId , adminToken
@@ -128,6 +163,8 @@ function requestGetGameInfo(quizId, adminToken) {
     });
 }
 
+
+
 // Call request for game start
 function gameStartAsAdmin(quizId, adminToken) {
 
@@ -154,12 +191,24 @@ function gameEndAsAdmin(quizId, adminToken) {
     });
 }
 
+// Call request to start next question
+function gameAdvanceAsAdmin(quizId, adminToken) {
+
+  return requestGameAdvance(quizId, adminToken)
+    .then(responseObj => {
+      return responseObj;
+    }).catch(error => {
+      console.error('function gameAdvanceAsAdmin failed', error);
+      alert(error);
+      // throw (error);
+    });
+}
+
 // Call request for game start
 function getActiveSessionId(quizId, adminToken) {
 
   return requestGetGameInfo(quizId, adminToken)
     .then(responseObj => {
-      console.log(responseObj);
       return responseObj["active"];
     }).catch(error => {
       console.error('function getLatestSessionId failed', error);
@@ -182,6 +231,11 @@ function GameCard(props) {
   const [sessionDialogOpen, setSessionDialogOpen] = React.useState(false);
   const [stopDialogOpen, setStopDialogOpen] = React.useState(false);
   const [sessionId, setSessionId] = React.useState(null);
+
+  // Check if game is active and set state
+  getActiveSessionId(gameId,adminToken)
+    .then(sId => {setGameState(sId!==null);});
+  
 
   const handleSessionDialogClose = () => {
     setSessionDialogOpen(false);
@@ -236,6 +290,12 @@ function GameCard(props) {
     console.log(gameId + 'deleted');
   }
 
+  // Advance to next question of this quiz
+  const advanceHandler = () =>{
+    console.log("ADVANCE");
+    gameAdvanceAsAdmin(gameId,adminToken);
+  }
+
   
   const copySessionId = async () => {
     // const data = document.getElementById('sessionId');
@@ -277,11 +337,17 @@ function GameCard(props) {
           </ListItem>
         </List>
       </CardContent>
-      <CardActions>
+      <CardActions sx={{display:"flex",flexWrap:"wrap"}}>
         <Button size="small" onClick={editHandler}>Edit</Button>
-        {gameState === false ? <Button size="small" onClick={startHandler}>Start</Button> :
-          <Button size="small" onClick={stopHandler}>stop</Button>}
+        {gameState === false ? 
+          <Button size="small" onClick={startHandler}>Start</Button> :
+          <Button size="small" onClick={stopHandler}>Stop</Button>
+        }
         <Button size="small" onClick={deleteHandler}>Delete</Button>
+        {gameState === true ? 
+          <Button size="small" onClick={advanceHandler}>Next Question</Button> :
+          <></>
+        }
       </CardActions>
       <Dialog onClose={handleSessionDialogClose} open={sessionDialogOpen}>
         <DialogTitle>Session ID</DialogTitle>

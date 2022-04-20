@@ -85,8 +85,11 @@ function updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, se
 
 function PlayGame() {
   const [countDown, setCountDown] = React.useState(10);
-  const [isGameStart, setIsGameStart] = React.useState(true);
+  const [isGameStart, setIsGameStart] = React.useState(false);
   const [isEndOfGame, setIsEndOfGame] = React.useState(false);
+
+  const [pollIntervalId, setPollIntervalId] = React.useState(null);
+
   const navigate = useNavigate();
   
   // before start: false,false
@@ -94,16 +97,18 @@ function PlayGame() {
   // end game: true,true
 
   const playerId = localStorage.getItem('PLAYER_ID')
-  // React.useEffect(async () => {
-  //   // perform initial check and abort if not valid
-  //   const initialCheck = await updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame,navigate)
-  //   if(initialCheck){
-  //     const interval = setInterval(() => updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame,navigate), 1000);
-  //   }
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
+  React.useEffect(async () => {
+    // perform initial check and abort if not valid
+    const initialCheck = await updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame,navigate)
+    // let interval = null;
+    if(initialCheck){
+      setPollIntervalId(setInterval(() => updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame,navigate), 1000));
+    }
+    return () => {
+      clearInterval(pollIntervalId);
+      setPollIntervalId(null);
+    };
+  }, []);
 
   return (
     <PlayGameContext.Provider value={{ countDown, setCountDown }}>
