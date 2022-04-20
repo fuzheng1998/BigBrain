@@ -7,7 +7,7 @@ import { userContext } from '../App';
 import { AUTH } from '../config';
 import { useNavigate } from 'react-router-dom';
 
-function HeaderBar() {
+function HeaderBar () {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position='static'>
@@ -21,9 +21,9 @@ function HeaderBar() {
     </Box>
   );
 }
-function LoginOutButton() {
+function LoginOutButton () {
   const [user, setUser] = useContext(userContext);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const logout = () => {
     fetch(AUTH.LOGOUT_URL,
       {

@@ -13,11 +13,11 @@ export const QUIZ = {
   GET_LIST_URL: `${BACKEND_URL}/admin/quiz`,
   DELETE_URL: `${BACKEND_URL}/admin/quiz/`,
   PUT_URL: `${BACKEND_URL}/admin/quiz/`,
+  GET_QUESTION_URL: (quizId) => `${BACKEND_URL}/admin/quiz/${quizId}`,
   GET_SINGLE_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}`,
   START_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/start`,
   END_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/end`,
-  ADVANCE_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/advance`,
-
+  ADVANCE_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/advance`
 }
 
 export const PLAYER = {

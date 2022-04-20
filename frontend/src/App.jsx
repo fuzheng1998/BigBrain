@@ -9,7 +9,6 @@ import GameEditForm from './components/GameEditForm';
 import QuestionEditForm from './components/QuestionEditForm';
 import HeaderBar from './components/Header';
 import Dashboard from './components/Dashboard';
-
 // import pages
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
