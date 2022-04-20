@@ -16,11 +16,14 @@ export const QUIZ = {
   GET_QUESTION_URL: (quizId) => `${BACKEND_URL}/admin/quiz/${quizId}`,
   GET_SINGLE_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}`,
   START_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/start`,
-  END_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/end`
+  END_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/end`,
+  ADVANCE_URL: (quizid) => `${BACKEND_URL}/admin/quiz/${quizid}/advance`
 }
 
 export const PLAYER = {
   JOIN_URL: (sessionid) => `${BACKEND_URL}/play/join/${sessionid}`,
   STATUS_URL: (playerid) => `${BACKEND_URL}/play/${playerid}/status`,
-  ANSWER_URL: (playerid) => `${BACKEND_URL}/play/${playerid}/answer`
+  ANSWER_URL: (playerid) => `${BACKEND_URL}/play/${playerid}/answer`,
+  QUESTION_URL: (playerid) => `${BACKEND_URL}/play/${playerid}/question`,
+  RESULTS_URL: (playerid) => `${BACKEND_URL}/play/${playerid}/results`,
 }

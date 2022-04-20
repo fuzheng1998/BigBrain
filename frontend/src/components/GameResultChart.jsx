@@ -1,7 +1,8 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
-import {ArgumentAxis, BarSeries, Chart, ValueAxis,} from '@devexpress/dx-react-chart-material-ui';
-import {EventTracker, HoverState, Title} from '@devexpress/dx-react-chart';
+import { ArgumentAxis, BarSeries, Chart, ValueAxis, } from '@devexpress/dx-react-chart-material-ui';
+import { EventTracker, HoverState } from '@devexpress/dx-react-chart';
+import PropTypes from 'prop-types'
 
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -9,84 +10,87 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
-
 const data = [
-    { year: '1950', population: 2.525 },
-    { year: '1960', population: 3.018 },
-    { year: '1970', population: 3.682 },
-    { year: '1980', population: 4.440 },
-    { year: '1990', population: 5.310 },
-    { year: '2000', population: 6.127 },
-    { year: '2010', population: 6.930 },
-];
+  { question: 'Q1', value: 77 },
+  { question: 'Q2', value: 33 },
+  { question: 'Q3', value: 55 },
+  { question: 'Q4', value: 22 },
+  { question: 'Q5', value: 85 },
+  { question: 'Q6', value: 88 },
+  { question: 'Q7', value: 10 },
+]
 
 const data2 = [
-    { year: '1950', population: 100 },
-    { year: '1960', population: 90 },
-    { year: '1970', population: 30 },
-    { year: '1980', population: 80 },
-    { year: '1990', population: 66 },
-    { year: '2000', population: 66 },
-    { year: '2010', population: 66 },
+  { question: 'Q1', value: 20 },
+  { question: 'Q2', value: 10 },
+  { question: 'Q3', value: 3 },
+  { question: 'Q4', value: 8 },
+  { question: 'Q5', value: 32 },
+  { question: 'Q6', value: 16 },
+  { question: 'Q7', value: 20 },
 ];
 
-
 const data3 = [
-    { year: '1950', population: 88 },
-    { year: '1960', population: 88 },
-    { year: '1970', population: 88 },
-    { year: '1980', population: 88 },
-    { year: '1990', population: 88 },
-    { year: '2000', population: 88 },
-    { year: '2010', population: 88 },
+  { question: 'Q1', value: 32 },
+  { question: 'Q2', value: 66 },
+  { question: 'Q3', value: 12 },
+  { question: 'Q4', value: 82 },
+  { question: 'Q5', value: 43 },
+  { question: 'Q6', value: 54 },
+  { question: 'Q7', value: 22 },
 ];
 
 // a single chart
-function SingleGameResult({ data , type }){
-    return(
-        <Chart data={data}>
-            <ArgumentAxis />
-            <ValueAxis />
+function SingleGameResult ({ data, type }) {
+  return (
+    <Chart data={data}>
+      <ArgumentAxis />
+      <ValueAxis />
 
-            <BarSeries
-                valueField="population"
-                argumentField="year"
-            />
-            <EventTracker />
-            <HoverState />
-        </Chart>
-    )
+      <BarSeries
+        valueField='value'
+        argumentField='question'
+      />
+      <EventTracker />
+      <HoverState />
+    </Chart>
+  )
 }
 
-export default function GameResultChart(){
-    // state types: "correct" "time" "most"
-    const [tabValue, setTabValue] = React.useState("correct");
+SingleGameResult.propTypes = {
+  data: PropTypes.array,
+  type: PropTypes.string
+}
 
-    const handleTabChange = (event, newValue) => {
-        setTabValue(newValue);
-    };
+export default function GameResultChart () {
+  // state types: 'correct' 'time' 'most'
+  const [tabValue, setTabValue] = React.useState('correct');
 
-    return (
-        <Paper>
-            <TabContext value={tabValue}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <TabList onChange={handleTabChange} aria-label="result tabs" variant="scrollable">
-                    <Tab label="Percentage of correct" value="correct"/>
-                    <Tab label="Average Time" value="time"/>
-                    <Tab label="Most choosed answer" value="most"/>
-                </TabList>
-                </Box>
-                <TabPanel value="correct">
-                    <SingleGameResult data={data} type='correct'/>
-                </TabPanel>
-                <TabPanel value="time">
-                    <SingleGameResult data={data2} type='time'/>
-                </TabPanel>
-                <TabPanel value="most">
-                    <SingleGameResult data={data3} type='most'/>
-                </TabPanel>
-                
-            </TabContext>
-        </Paper>
-    );
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
+
+  return (
+    <Paper>
+      <TabContext value={tabValue}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList onChange={handleTabChange} aria-label='result tabs' variant='scrollable'>
+            <Tab label='Percentage of correct' value='correct' />
+            <Tab label='Average Time' value='time' />
+            <Tab label='Most choosed answer' value='most' />
+          </TabList>
+        </Box>
+        <TabPanel value='correct'>
+          <SingleGameResult data={data} type='correct' />
+        </TabPanel>
+        <TabPanel value='time'>
+          <SingleGameResult data={data2} type='time' />
+        </TabPanel>
+        <TabPanel value='most'>
+          <SingleGameResult data={data3} type='most' />
+        </TabPanel>
+
+      </TabContext>
+    </Paper>
+  );
 }
