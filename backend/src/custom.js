@@ -9,10 +9,6 @@ export const quizQuestionPublicReturn = question => {
   //   points: 10,
   //   type: "multiple",
   //   time: 10
-  //   media: {
-  //       type:(image/video)
-  //       data:
-  //   },
   //   options: [
   //   {
   //      id:  1
@@ -20,6 +16,9 @@ export const quizQuestionPublicReturn = question => {
   //   }
   //   ],
   //  answers: []
+  //  mediaType: null
+  //  image: ""
+  //  videoCode: ""
   // }
   delete question.answers;
   console.log('See question: ', question);

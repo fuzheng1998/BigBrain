@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 import MediaDisplay from './MediaDisplay.jsx'
 import TimerWidget from './TimerWidget.jsx'
 
-function QuestionCard() {
+function QuestionCard({ questionObj }) {
     return (
         <Box
             sx={{
@@ -27,18 +27,29 @@ function QuestionCard() {
                 width: '100%'
             }}
         >
-            <MediaDisplay mediaType="video" youtubeCode="ojeCfN6MGCI" />
-            <Grid container spacing={2}>
-                <Grid item xs={10}>
-                    <Typography component="h1" variant="h3">
-                        Question is displayed here
-                    </Typography>
-                </Grid>
-                <Grid item xs={2}>
-                    <TimerWidget />
-                </Grid>
-            </Grid>
-
+            {questionObj==null ? (
+                <Typography component="h1" variant="h3">
+                    Loading question...
+                </Typography>
+            ):(
+                <>
+                    {questionObj["mediaType"]==null ? (
+                        <></>
+                    ) : (
+                        <MediaDisplay mediaType={questionObj["mediaType"]} youtubeCode={questionObj["videoCode"]} image={questionObj["image"]} />
+                    )}
+                    <Grid container spacing={2}>
+                        <Grid item xs={10}>
+                            <Typography component="h1" variant="h3">
+                                {questionObj["content"]}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <TimerWidget />
+                        </Grid>
+                    </Grid>
+                </>
+            )}
 
         </Box>
     );
