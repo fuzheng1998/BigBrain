@@ -16,13 +16,14 @@ import {
   ListItemText,
   Typography
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { QUIZ } from "../config";
 
+import { useNavigate } from 'react-router-dom';
+import { QUIZ } from '../config';
+import PropTypes from 'prop-types';
 // Calls QUIZ.START_URL to start game
 // @param {Json} quizId , adminToken
 // @returns {Promise.Json} response body from start game request (empty)
-function requestGameStart(quizId, adminToken) {
+function requestGameStart (quizId, adminToken) {
   const startRequest = new Request(QUIZ.START_URL(quizId),
     {
       method: 'POST',
@@ -42,7 +43,7 @@ function requestGameStart(quizId, adminToken) {
         return response.json();
       } else {
         return response.json().then(errorJson => {
-          throw Error(`${response.status} ${response.statusText} [${errorJson["error"]}]`);
+          throw Error(`${response.status} ${response.statusText} [${errorJson.error}]`);
         });
       }
     })
@@ -58,7 +59,7 @@ function requestGameStart(quizId, adminToken) {
 // Calls QUIZ.END_URL to end game
 // @param {Json} quizId , adminToken
 // @returns {Promise.Json} response body from end game request (empty)
-function requestGameEnd(quizId, adminToken) {
+function requestGameEnd (quizId, adminToken) {
   const endRequest = new Request(QUIZ.END_URL(quizId),
     {
       method: 'POST',
@@ -78,7 +79,7 @@ function requestGameEnd(quizId, adminToken) {
         return response.json();
       } else {
         return response.json().then(errorJson => {
-          throw Error(`${response.status} ${response.statusText} [${errorJson["error"]}]`);
+          throw Error(`${response.status} ${response.statusText} [${errorJson.error}]`);
         });
       }
     })
@@ -91,12 +92,10 @@ function requestGameEnd(quizId, adminToken) {
     });
 }
 
-
-
 // Calls QUIZ.GET_SINGLE_URL to get game data
 // @param {Json} quizId , adminToken
 // @returns {Promise.Json} response body from get game data request
-function requestGetGameInfo(quizId, adminToken) {
+function requestGetGameInfo (quizId, adminToken) {
   const getGameRequest = new Request(QUIZ.GET_SINGLE_URL(quizId),
     {
       method: 'GET',
@@ -115,7 +114,7 @@ function requestGetGameInfo(quizId, adminToken) {
         return response.json();
       } else {
         return response.json().then(errorJson => {
-          throw Error(`${response.status} ${response.statusText} [${errorJson["error"]}]`);
+          throw Error(`${response.status} ${response.statusText} [${errorJson.error}]`);
         });
       }
     })
@@ -129,8 +128,7 @@ function requestGetGameInfo(quizId, adminToken) {
 }
 
 // Call request for game start
-function gameStartAsAdmin(quizId, adminToken) {
-
+function gameStartAsAdmin (quizId, adminToken) {
   return requestGameStart(quizId, adminToken)
     .then(responseObj => {
       return responseObj;
@@ -142,8 +140,7 @@ function gameStartAsAdmin(quizId, adminToken) {
 }
 
 // Call request for game end
-function gameEndAsAdmin(quizId, adminToken) {
-
+function gameEndAsAdmin (quizId, adminToken) {
   return requestGameEnd(quizId, adminToken)
     .then(responseObj => {
       return responseObj;
@@ -155,12 +152,11 @@ function gameEndAsAdmin(quizId, adminToken) {
 }
 
 // Call request for game start
-function getActiveSessionId(quizId, adminToken) {
-
+function getActiveSessionId (quizId, adminToken) {
   return requestGetGameInfo(quizId, adminToken)
     .then(responseObj => {
       console.log(responseObj);
-      return responseObj["active"];
+      return responseObj.active;
     }).catch(error => {
       console.error('function getLatestSessionId failed', error);
       alert(error);
@@ -168,11 +164,10 @@ function getActiveSessionId(quizId, adminToken) {
     });
 }
 
-
-
-
-
-function GameCard(props) {
+GameCard.propTypes = {
+  gameData: PropTypes.object.isRequired,
+};
+function GameCard (props) {
   const gameData = props.gameData;
   const gameId = gameData.id;
   const adminToken = localStorage.getItem('auth_token');
@@ -197,13 +192,12 @@ function GameCard(props) {
     setStopDialogOpen(true);
   }
 
-
   const startHandler = async () => {
     setGameState(true);
     // Send start game request
-    await gameStartAsAdmin(gameId,adminToken);
+    await gameStartAsAdmin(gameId, adminToken);
     // Get session Id
-    const tempSessionId = await getActiveSessionId(gameId,adminToken);
+    const tempSessionId = await getActiveSessionId(gameId, adminToken);
     setSessionId(tempSessionId);
     //  dialog of game session
     handleSessionDialogOpen();
@@ -211,23 +205,22 @@ function GameCard(props) {
   const stopHandler = () => {
     console.log('stop');
     setGameState(false);
-    gameEndAsAdmin(gameId,adminToken);
+    gameEndAsAdmin(gameId, adminToken);
     //  dialog of game stop
     handleStopDialogOpen();
     //  naviage to game page
   }
-
   const editHandler = () => {
     console.log('edit');
     navigate('../admin/edit/' + gameId, { state: { gameData: gameData } });
   }
   const deleteHandler = () => {
     console.log('delete game' + gameId);
-    const response = fetch(QUIZ.DELETE_URL + gameId, {
+    fetch(QUIZ.DELETE_URL + gameId, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': localStorage.getItem('auth_token')
+        Authorization: localStorage.getItem('auth_token')
       }
     }).catch(error => {
       console.log(error);
@@ -236,13 +229,12 @@ function GameCard(props) {
     console.log(gameId + 'deleted');
   }
 
-  
   const copySessionId = async () => {
     // const data = document.getElementById('sessionId');
     // todo generate new session link
     // const promise = navigator.clipboard.writeText(data.innerText);
     await navigator.clipboard.writeText(sessionId);
-    //close copy prompt
+    // close copy prompt
     handleSessionDialogClose();
     // promise.then(function () {
     //   console.log('Async: Copying to clipboard was successful!');
@@ -278,8 +270,9 @@ function GameCard(props) {
       </CardContent>
       <CardActions>
         <Button size="small" onClick={editHandler}>Edit</Button>
-        {gameState === false ? <Button size="small" onClick={startHandler}>Start</Button> :
-          <Button size="small" onClick={stopHandler}>stop</Button>}
+        {gameState === false
+          ? <Button size="small" onClick={startHandler}>Start</Button>
+          : <Button size="small" onClick={stopHandler}>stop</Button>}
         <Button size="small" onClick={deleteHandler}>Delete</Button>
       </CardActions>
       <Dialog onClose={handleSessionDialogClose} open={sessionDialogOpen}>

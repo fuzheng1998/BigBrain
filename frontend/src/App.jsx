@@ -2,18 +2,13 @@ import * as React from 'react';
 import {createContext} from 'react';
 import './App.css';
 import '@fontsource/roboto';
-import { BrowserRouter, Link, Outlet, Route, Routes } from 'react-router-dom';
+import {BrowserRouter, Link, Outlet, Route, Routes} from 'react-router-dom';
 
 // import mui tags
-import Button from '@mui/material/Button';
-import {Box, Grid} from '@mui/material';
 import GameEditForm from './components/GameEditForm';
 import QuestionEditForm from './components/QuestionEditForm';
 import HeaderBar from './components/Header';
-import Paper from "@mui/material/Paper";
-import Card from "@mui/material/Card";
-import {ArrowBack} from "@mui/icons-material";
-import Dashboard from "./components/Dashboard";
+import Dashboard from './components/Dashboard';
 // import pages
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
@@ -24,7 +19,6 @@ import AdminResults from './pages/AdminResults';
 // import components
 // empty for now
 
-
 export const userContext = createContext(null);
 function EditGame () {
   return (
@@ -34,8 +28,6 @@ function EditGame () {
       </div>
   );
 }
-
-
 
 function EditQuestion () {
   return (
@@ -66,7 +58,7 @@ function Header () {
 }
 
 function App () {
-    return (
+  return (
         <div>
                 {/* Routes nest inside one another. Nested route paths build upon
             parent route paths, and nested route elements render inside
@@ -92,11 +84,11 @@ function App () {
                 </BrowserRouter>
 
         </div>
-    );
+  );
 }
 
 function Layout () {
-    const [userToken, setUserToken] = React.useState(null);
+  const [userToken, setUserToken] = React.useState(null);
   return (
       <userContext.Provider value={[userToken, setUserToken]}>
         <div>

@@ -5,6 +5,7 @@
 */
 export const quizQuestionPublicReturn = question => {
   // {
+  // id: 0
   //   content: "",
   //   points: 10,
   //   type: "multiple",
