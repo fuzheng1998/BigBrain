@@ -21,7 +21,6 @@ function TimerWidget() {
     
   }, [countDown]);
 
-  console.log(countDown);
   return (
     <Box
     display="flex"

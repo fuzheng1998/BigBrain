@@ -20,9 +20,12 @@ export const quizQuestionPublicReturn = question => {
   //  image: ""
   //  videoCode: ""
   // }
-  delete question.answers;
-  console.log('See question: ', question);
-  return question;
+
+
+  // delete question.answers;
+  let newQuestion = JSON.parse(JSON.stringify(question));
+  delete newQuestion.answers;
+  return newQuestion;
 };
 
 /*
@@ -30,6 +33,7 @@ export const quizQuestionPublicReturn = question => {
  the correct answers (minimum 1).
 */
 export const quizQuestionGetCorrectAnswers = question => {
+  console.log("Call getCorrectAnswer Backend: ", new Date().toUTCString());
   return question.answers
 };
 

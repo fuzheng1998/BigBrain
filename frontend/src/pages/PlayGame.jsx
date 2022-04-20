@@ -90,12 +90,10 @@ function requestGameQuestion(playerId) {
 // @param {} playerId, getter setters for states
 // @returns nothing
 function updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame, navigate) {
-  console.log("polling");
   // set states
   return requestGameStatus(playerId)
     .then(responseObj => {
       setIsGameStart(responseObj["started"]);
-      console.log(responseObj)
       return true;
     }).catch(error => {
       if (isGameStart) {
@@ -105,8 +103,9 @@ function updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, se
       else {
         console.error('function checkGameStatus failed', error);
 
-        alert(error);
+        
         navigate('/');
+        alert(error);
         // throw(error);
         return false;
       }
@@ -114,31 +113,32 @@ function updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, se
 }
 
 // 
-function updateGameQuestion(playerId, currentQuestion, setCurrentQuestion, setCountDown) {
-  console.log("Update question");
+function updateGameQuestion(playerId, setCurrentQuestion, setCountDown) {
+  // if(!isGameStart||isEndOfGame){
+  //   // abort request when called out of proper timing
+  //   console.log(isGameStart,isEndOfGame)
+  //   return null;
+  // }
   // set states
   return requestGameQuestion(playerId)
     .then(questionObj => {
-      console.log(currentQuestion,questionObj["content"])
-      if(currentQuestion==null||currentQuestion["content"]!==questionObj["content"]){
-        // Found new question
+        // Question is updated every time even if it's the same
         // Reset timer
         setCurrentQuestion(questionObj);
-        const timeLatency = Math.ceil((Date.now() - Date.parse(questionObj["isoTimeLastQuestionStarted"]))/1000);
-        const remainingTime = Math.max(questionObj["time"]-timeLatency,-1);
+        const timeLatency = Math.ceil((Date.now() - Date.parse(questionObj["isoTimeLastQuestionStarted"])) / 1000);
+        const remainingTime = Math.max(questionObj["time"] - timeLatency, -1);
         setCountDown(remainingTime);
         console.log(remainingTime);
-      }
     }).catch(error => {
-        console.error('function requestGameQuestion failed', error);
-        alert(error);
-        // throw(error);
+      console.info('function requestGameQuestion failed', error);
+      // alert(error);
+      // throw(error);
     });
 }
 
 
 function PlayGame() {
-  const [countDown, setCountDown] = React.useState(10);
+  const [countDown, setCountDown] = React.useState(-1);
 
   // before start: false,false
   // during game: true,false
@@ -158,21 +158,21 @@ function PlayGame() {
   // Poll game status continuously
   // Poll game question continuously
   //      :This is to prevent the question being advanced before the timer is up
-  React.useEffect(async () => {
+  React.useEffect( () => {
     // perform initial check and abort if not valid
-    const initialCheck = await updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame, navigate)
-    // let interval = null;
-    if (initialCheck) {
-      setPollIntervalId(setInterval(() => updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame, navigate), 1000));
-      setQuestionIntervalId(setInterval(() => updateGameQuestion(playerId, currentQuestion, setCurrentQuestion, setCountDown), 1000));
-    }
+    // can't async
+    // const initialCheck = await updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame, navigate)
+    setPollIntervalId(setInterval(() => updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame, navigate), 1000));
+    setQuestionIntervalId(setInterval(() => updateGameQuestion(playerId, setCurrentQuestion, setCountDown), 1000));
+
     return () => {
       clearInterval(pollIntervalId);
       clearInterval(questionIntervalId);
+      console.log("Cleaning up!",pollIntervalId,questionIntervalId);
       setPollIntervalId(null);
-      questionIntervalId(null);
+      setQuestionIntervalId(null);
     };
-  }, []);
+  }, [isGameStart, isEndOfGame]);
 
 
   return (
@@ -201,8 +201,8 @@ function PlayGame() {
               </>
             ) : (
               <>
-                <QuestionCard questionObj={currentQuestion}/>
-                <ChoicesCard questionObj={currentQuestion}/>
+                <QuestionCard questionObj={currentQuestion} />
+                <ChoicesCard questionObj={currentQuestion} countDown={countDown} />
               </>
             )
 
