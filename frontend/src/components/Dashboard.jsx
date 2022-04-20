@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import GameAddDialog from './GameAddDialog';
 import GameCardLayout from './GameCardLayout';
 
-export default function Dashboard() {
+export default function Dashboard () {
   const [open, setOpen] = React.useState(false);
   const dialogClose = () => {
     setOpen(false);

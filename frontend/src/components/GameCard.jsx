@@ -213,7 +213,7 @@ function getActiveSessionId (quizId, adminToken) {
 }
 
 GameCard.propTypes = {
-  gameData: PropTypes.object.isRequired,
+  gameData: PropTypes.object,
 };
 function GameCard (props) {
   const gameData = props.gameData;
