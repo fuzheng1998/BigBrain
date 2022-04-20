@@ -11,21 +11,20 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import { AUTH } from '../config';
 
-
 // referenced from here:
 // https://stackoverflow.com/questions/46155/whats-the-best-way-to-validate-an-email-address-in-javascript
-function isValidateEmail(email) {
-  let re = /\S+@\S+\.\S+/;
+function isValidateEmail (email) {
+  const re = /\S+@\S+\.\S+/;
   return re.test(email);
 }
 
 // Tool function for registerAsUser()
 // Checks if the register data is valid before sending to backend
-function validateRegisterData(registerDataJson) {
+function validateRegisterData (registerDataJson) {
   return new Promise((resolve, reject) => {
     const formDataObj = JSON.parse(registerDataJson);
-    if (!isValidateEmail(formDataObj["email"])) {
-      throw Error(`Not a valid email`);
+    if (!isValidateEmail(formDataObj.email)) {
+      throw Error('Not a valid email');
     }
 
     resolve(registerDataJson);
@@ -35,7 +34,7 @@ function validateRegisterData(registerDataJson) {
 // Calls AUTH.REGISTER_URL to register
 // @param {Json} registerDataJson
 // @returns {Promise.Json} response body from register request
-function requestRegisterAsUser(registerDataJson) {
+function requestRegisterAsUser (registerDataJson) {
   const registerRequest = new Request(AUTH.REGISTER_URL,
     {
       method: 'POST',
@@ -51,7 +50,7 @@ function requestRegisterAsUser(registerDataJson) {
         return response.json();
       } else {
         return response.json().then(errorJson => {
-          throw Error(`${response.status} ${response.statusText} [${errorJson["error"]}]`);
+          throw Error(`${response.status} ${response.statusText} [${errorJson.error}]`);
         });
       }
     })
@@ -62,20 +61,18 @@ function requestRegisterAsUser(registerDataJson) {
       console.error('function requestRegisterAsUser fetch failed', error);
       throw error;
     });
-
 }
 
-function registerAsUser(formDataObj) {
-  //Convert object to json
-  let registerDataJson = "";
+function registerAsUser (formDataObj) {
+  // Convert object to json
+  let registerDataJson = '';
   registerDataJson = JSON.stringify(formDataObj);
   console.log(registerDataJson)
-
 
   return validateRegisterData(registerDataJson)
     .then(registerDataJson => requestRegisterAsUser(registerDataJson))
     .then(responseObj => {
-      alert("Register success!");
+      alert('Register success!');
       return responseObj;
     }).catch(error => {
       console.error('function registerAsUser failed', error);
@@ -84,12 +81,12 @@ function registerAsUser(formDataObj) {
     });
 }
 
-function Register() {
+function Register () {
   const handleSubmit = (event) => {
     event.preventDefault();
     const registerFD = new FormData(event.currentTarget);
-    let formDataObj = {};
-    registerFD.forEach((value, key) => formDataObj[key] = value);
+    const formDataObj = {};
+    registerFD.forEach((value, key) => { formDataObj[key] = value });
 
     console.log({
       formDataObj
@@ -97,16 +94,15 @@ function Register() {
 
     registerAsUser(formDataObj).then(responseObj => {
       // TODO: Use global variable
-      const CUR_USER_TOKEN = responseObj["token"];
+      const CUR_USER_TOKEN = responseObj.token;
       console.log(CUR_USER_TOKEN);
     }).catch((error) => {
       console.error('Register failed', error);
     });
-
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth='sm'>
       <CssBaseline />
       <Box
         sx={{
@@ -119,10 +115,10 @@ function Register() {
           bgcolor: '#f0f0f0',
         }}
       >
-        <Typography component="h1" variant="h3">
+        <Typography component='h1' variant='h3'>
           REGISTER
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate
+        <Box component='form' onSubmit={handleSubmit} noValidate
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -132,45 +128,45 @@ function Register() {
           }}
         >
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id='email'
+            label='Email Address'
+            name='email'
+            autoComplete='email'
             autoFocus
           />
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            name="name"
-            label="Name"
-            type="text"
-            id="name"
-            autoComplete="name"
+            name='name'
+            label='Name'
+            type='text'
+            id='name'
+            autoComplete='name'
           />
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            name='password'
+            label='Password'
+            type='password'
+            id='password'
+            autoComplete='current-password'
           />
           <Button
-            type="submit"
-            variant="contained"
-            size="large"
+            type='submit'
+            variant='contained'
+            size='large'
             sx={{ mt: 3, mb: 2, width: 0.8, fontSize: 24 }}
           >
             REGISTER
           </Button>
 
-          <Link component={RouterLink} to="/login" sx={{ mt: 2 }} variant="body2">
+          <Link component={RouterLink} to='/login' sx={{ mt: 2 }} variant='body2'>
             Have an account? Back to login page
           </Link>
         </Box>

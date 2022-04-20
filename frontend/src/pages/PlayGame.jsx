@@ -1,15 +1,9 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-import { useNavigate } from "react-router-dom";
-import { useLocation } from 'react-router-dom'
-import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
 // import components
 import QuestionCard from '../components/playgame/QuestionCard';
@@ -19,14 +13,14 @@ import LobbyCard from '../components/playgame/LobbyCard';
 
 // import urls
 import { PLAYER } from '../config.js';
-import { TrafficRounded } from '@mui/icons-material';
+// import { TrafficRounded } from '@mui/icons-material';
 
 export const PlayGameContext = React.createContext()
 
 // Calls PLAYER.STATUS_URL to check status
 // @param {} playerId
 // @returns {Promise.Json} response body from game status request
-function requestGameStatus(playerId) {
+function requestGameStatus (playerId) {
   const statusRequest = new Request(PLAYER.STATUS_URL(playerId),
     {
       method: 'GET',
@@ -42,12 +36,11 @@ function requestGameStatus(playerId) {
         return response.json();
       } else {
         return response.json().then(errorJson => {
-          throw Error(`${response.status} ${response.statusText} [${errorJson["error"]}]`);
+          throw Error(`${response.status} ${response.statusText} [${errorJson.error}]`);
         });
       }
     })
     .then(responseObj => {
-      // console.log("requestLoginAsUser():"+ JSON.stringify(responseObj));
       return responseObj;
     })
     .catch((error) => {
@@ -56,11 +49,10 @@ function requestGameStatus(playerId) {
     });
 }
 
-
 // Calls PLAYER.QUESTION_URL to get current question
 // @param {} playerId
 // @returns {Promise.Json} response body from game question request
-function requestGameQuestion(playerId) {
+function requestGameQuestion (playerId) {
   const statusRequest = new Request(PLAYER.QUESTION_URL(playerId),
     {
       method: 'GET',
@@ -74,35 +66,32 @@ function requestGameQuestion(playerId) {
         return response.json();
       } else {
         return response.json().then(errorJson => {
-          throw Error(`${response.status} ${response.statusText} [${errorJson["error"]}]`);
+          throw Error(`${response.status} ${response.statusText} [${errorJson.error}]`);
         });
       }
     })
     .then(responseObj => {
-      return responseObj["question"];
+      return responseObj.question;
     })
     .catch((error) => {
       throw error;
     });
-
 }
-
 
 // Fetch game status and update corresponding states
 // @param {} playerId, getter setters for states
 // @returns nothing
-function updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame, navigate) {
+function updateGameStatus (playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame, navigate) {
   // set states
   return requestGameStatus(playerId)
     .then(responseObj => {
-      setIsGameStart(responseObj["started"]);
+      setIsGameStart(responseObj.started);
       return true;
     }).catch(error => {
       if (isGameStart) {
         setIsEndOfGame(true);
         return true;
-      }
-      else {
+      } else {
         console.error('function checkGameStatus failed', error);
 
         // navigate('/');
@@ -113,21 +102,16 @@ function updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, se
     });
 }
 
-// 
-function updateGameQuestion(playerId, setCurrentQuestion, setCountDown) {
-  // if(!isGameStart||isEndOfGame){
-  //   // abort request when called out of proper timing
-  //   console.log(isGameStart,isEndOfGame)
-  //   return null;
-  // }
+//
+function updateGameQuestion (playerId, setCurrentQuestion, setCountDown) {
   // set states
   return requestGameQuestion(playerId)
     .then(questionObj => {
       // Question is updated every time even if it's the same
       // Reset timer
       setCurrentQuestion(questionObj);
-      const timeLatency = Math.ceil((Date.now() - Date.parse(questionObj["isoTimeLastQuestionStarted"])) / 1000);
-      const remainingTime = Math.max(questionObj["time"] - timeLatency, -1);
+      const timeLatency = Math.ceil((Date.now() - Date.parse(questionObj.isoTimeLastQuestionStarted)) / 1000);
+      const remainingTime = Math.max(questionObj.time - timeLatency, -1);
       setCountDown(remainingTime);
       console.log(remainingTime);
     }).catch(error => {
@@ -137,8 +121,7 @@ function updateGameQuestion(playerId, setCurrentQuestion, setCountDown) {
     });
 }
 
-
-function PlayGame() {
+function PlayGame () {
   const [countDown, setCountDown] = React.useState(-1);
 
   // before start: false,false
@@ -147,8 +130,8 @@ function PlayGame() {
   const [isGameStart, setIsGameStart] = React.useState(false);
   const [isEndOfGame, setIsEndOfGame] = React.useState(false);
 
-  const [pollIntervalId, setPollIntervalId] = React.useState(null);
-  const [questionIntervalId, setQuestionIntervalId] = React.useState(null);
+  // const [pollIntervalId, setPollIntervalId] = React.useState(null);
+  // const [questionIntervalId, setQuestionIntervalId] = React.useState(null);
 
   const [currentQuestion, setCurrentQuestion] = React.useState(null);
 
@@ -162,30 +145,27 @@ function PlayGame() {
   React.useEffect(() => {
     // perform initial check and abort if not valid
     // can't async
-    // const initialCheck = await updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame, navigate)
-    console.log("Run effect!");
     let pollInterval, questionInterval;
     if (!isEndOfGame) {
       pollInterval = setInterval(() => updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame, navigate), 1000);
       questionInterval = setInterval(() => updateGameQuestion(playerId, setCurrentQuestion, setCountDown), 1000);
-      setPollIntervalId(pollInterval);
-      setQuestionIntervalId(questionInterval);
+      // setPollIntervalId(pollInterval);
+      // setQuestionIntervalId(questionInterval);
 
       return () => {
         clearInterval(pollInterval);
         clearInterval(questionInterval);
-        console.log("Cleaning up!", pollInterval, questionInterval);
-        setPollIntervalId(null);
-        setQuestionIntervalId(null);
+        console.log('Cleaning up!', pollInterval, questionInterval);
+        // setPollIntervalId(null);
+        // setQuestionIntervalId(null);
       };
     }
-
   }, [isGameStart, isEndOfGame]);
 
   return (
     <PlayGameContext.Provider value={{ countDown, setCountDown }}>
       <Container
-        maxWidth="lg"
+        maxWidth='lg'
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -194,36 +174,39 @@ function PlayGame() {
       >
         <CssBaseline />
         {
-          isGameStart ? (
-            isEndOfGame ? (
+          isGameStart
+            ? (
+                isEndOfGame
+                  ? (
               <>
                 <ResultCard />
                 <Button
-                  component={RouterLink} 
-                  to="/player/join"
-                  variant="contained"
-                  size="large"
+                  component={RouterLink}
+                  to='/player/join'
+                  variant='contained'
+                  size='large'
                   sx={{ mt: 3, mb: 2, width: 0.8, fontSize: 24 }}
                 >
                   JOIN A NEW GAME
                 </Button>
               </>
-            ) : (
+                    )
+                  : (
               <>
                 <QuestionCard questionObj={currentQuestion} />
                 <ChoicesCard questionObj={currentQuestion} countDown={countDown} />
               </>
-            )
+                    )
 
-          ) : (
+              )
+            : (
             <LobbyCard />
-          )
+              )
         }
 
       </Container>
     </PlayGameContext.Provider>
   );
 }
-
 
 export default PlayGame;

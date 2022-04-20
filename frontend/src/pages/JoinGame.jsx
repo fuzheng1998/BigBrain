@@ -7,65 +7,61 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-import { Link as RouterLink } from 'react-router-dom';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 
 import { PLAYER } from '../config.js';
 
 // Calls AUTH.JOIN_URL to join
 // @param {Json} joinDataJson
 // @returns {Promise.Json} response body from join request
-function requestJoinAsUser(joinDataJson, sessionId) {
+function requestJoinAsUser (joinDataJson, sessionId) {
   console.log(joinDataJson);
   const joinRequest = new Request(PLAYER.JOIN_URL(sessionId),
-      {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: joinDataJson
-      });
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: joinDataJson
+    });
 
   console.log(joinRequest);
 
   return fetch(joinRequest)
-      .then(response => {
-          if (response.ok) {
-              return response.json();
-          } else {
-              return response.json().then(errorJson => {
-                  throw Error(`${response.status} ${response.statusText} [${errorJson["error"]}]`);
-              });
-          }
-      })
-      .then(responseObj => {
-          // console.log("requestJoinAsUser():"+ JSON.stringify(responseObj));
-          return responseObj;
-      })
-      .catch((error) => {
-          console.error('function requestJoinAsUser fetch failed', error);
-          throw error;
-      });
-
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.json().then(errorJson => {
+          throw Error(`${response.status} ${response.statusText} [${errorJson.error}]`);
+        });
+      }
+    })
+    .then(responseObj => {
+      return responseObj;
+    })
+    .catch((error) => {
+      console.error('function requestJoinAsUser fetch failed', error);
+      throw error;
+    });
 }
 
 // Perform actions for join
 // @param {Object} formDataObj
 // @returns {Promise.Object} response body from join request
-function JoinAsUser(formDataObj) {
-  //Convert object to json
-  let joinDataJson = "";
-  joinDataJson = JSON.stringify({"name":formDataObj["playername"]});
+function JoinAsUser (formDataObj) {
+  // Convert object to json
+  let joinDataJson = '';
+  joinDataJson = JSON.stringify({ name: formDataObj.playername });
 
-  return requestJoinAsUser(joinDataJson, formDataObj["sessionID"])
-      .then(responseObj => {
-          return responseObj;
-      }).catch(error => {
-          console.error('function joinAsUser failed', error);
-          throw(error);
-      });
+  return requestJoinAsUser(joinDataJson, formDataObj.sessionID)
+    .then(responseObj => {
+      return responseObj;
+    }).catch(error => {
+      console.error('function joinAsUser failed', error);
+      throw (error);
+    });
 }
 
-
-function JoinGame() {
+function JoinGame () {
   // fine if sessionId is undefined
   const { sessionId } = useParams();
   const navigate = useNavigate();
@@ -73,26 +69,25 @@ function JoinGame() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const joinFD = new FormData(event.currentTarget);
-    let formDataObj = {};
-    joinFD.forEach((value, key) => formDataObj[key] = value);
+    const formDataObj = {};
+    joinFD.forEach((value, key) => { formDataObj[key] = value });
 
-    console.log({formDataObj});
+    console.log({ formDataObj });
 
     JoinAsUser(formDataObj).then(responseObj => {
       // receive player id and navigate to game page
-      const PLAYER_ID = responseObj["playerId"];
-      localStorage.setItem('PLAYER_ID',PLAYER_ID)
+      const PLAYER_ID = responseObj.playerId;
+      localStorage.setItem('PLAYER_ID', PLAYER_ID)
       console.log(PLAYER_ID);
-      navigate(`/player/play/${formDataObj["sessionID"]}`);
+      navigate(`/player/play/${formDataObj.sessionID}`);
     }).catch((error) => {
       console.error('Join Game failed', error);
       alert(error);
     });
-
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth='sm'>
       <CssBaseline />
       <Box
         sx={{
@@ -105,10 +100,10 @@ function JoinGame() {
           bgcolor: '#f0f0f0',
         }}
       >
-        <Typography component="h1" variant="h3">
+        <Typography component='h1' variant='h3'>
           JOIN A GAME
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate
+        <Box component='form' onSubmit={handleSubmit} noValidate
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -118,39 +113,39 @@ function JoinGame() {
           }}
         >
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            id="sessionID"
-            label="Session ID"
-            name="sessionID"
-            autoComplete="sessionID"
+            id='sessionID'
+            label='Session ID'
+            name='sessionID'
+            autoComplete='sessionID'
             autoFocus
             defaultValue={sessionId}
           />
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            name="playername"
-            label="Player name"
-            id="playername"
-            autoComplete="playername"
+            name='playername'
+            label='Player name'
+            id='playername'
+            autoComplete='playername'
           />
           <Button
-            type="submit"
-            variant="contained"
-            size="large"
-            color="success"
+            type='submit'
+            variant='contained'
+            size='large'
+            color='success'
             sx={{ mt: 3, mb: 2, width: 0.8, fontSize: 24 }}
           >
             JOIN
           </Button>
 
-          <Link component={RouterLink} to="/login" sx={{ mt: 2 }} variant="body2">
+          <Link component={RouterLink} to='/login' sx={{ mt: 2 }} variant='body2'>
             Are you an admin? Login here.
           </Link>
-          <Link component={RouterLink} to="/register" sx={{ mt: 2 }} variant="body2">
+          <Link component={RouterLink} to='/register' sx={{ mt: 2 }} variant='body2'>
             Or register here to become an admin.
           </Link>
         </Box>

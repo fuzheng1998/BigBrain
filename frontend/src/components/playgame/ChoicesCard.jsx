@@ -1,23 +1,15 @@
 import React from 'react';
-import Button from '@mui/material/Button';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-
-import { PlayGameContext } from '../../pages/PlayGame.jsx';
+import PropTypes from 'prop-types'
 
 import { PLAYER } from '../../config.js';
-
 
 // Calls PLAYER.ANSWER_URL to get correct answer after timer is up
 // @param {} playerId
 // @returns {Promise.Json} response body from game status request
-function requestGetAnswer(playerId) {
+function requestGetAnswer (playerId) {
   const answerRequest = new Request(PLAYER.ANSWER_URL(playerId),
     {
       method: 'GET',
@@ -31,7 +23,7 @@ function requestGetAnswer(playerId) {
         return response.json();
       } else {
         return response.json().then(errorJson => {
-          throw Error(`${response.status} ${response.statusText} [${errorJson["error"]}]`);
+          throw Error(`${response.status} ${response.statusText} [${errorJson.error}]`);
         });
       }
     })
@@ -41,18 +33,16 @@ function requestGetAnswer(playerId) {
     .catch((error) => {
       throw error;
     });
-
 }
-
 
 // Fetch answer of question
 // @param {} playerId,
 // @returns nothing
-function getAnswerAsPlayer(playerId) {
+function getAnswerAsPlayer (playerId) {
   // set states
   return requestGetAnswer(playerId)
     .then(responseObj => {
-      return responseObj["answerIds"];
+      return responseObj.answerIds;
     }).catch(error => {
       console.error('function getAnswerAsPlayer failed', error);
       console.info(error)
@@ -62,12 +52,10 @@ function getAnswerAsPlayer(playerId) {
     });
 }
 
-
-
 // Calls PLAYER.ANSWER_URL to submit answer
 // @param {} playerId
 // @returns {Promise.Json} response body from put request (which is empty if success)
-function requestPutAnswer(playerId, answerDataJson) {
+function requestPutAnswer (playerId, answerDataJson) {
   console.log(answerDataJson);
   const answerRequest = new Request(PLAYER.ANSWER_URL(playerId),
     {
@@ -84,26 +72,25 @@ function requestPutAnswer(playerId, answerDataJson) {
         return response.json();
       } else {
         return response.json().then(errorJson => {
-          throw Error(`${response.status} ${response.statusText} [${errorJson["error"]}]`);
+          throw Error(`${response.status} ${response.statusText} [${errorJson.error}]`);
         });
       }
     })
     .then(responseObj => {
-      // console.log("requestLoginAsUser():"+ JSON.stringify(responseObj));
+      // console.log('requestLoginAsUser():'+ JSON.stringify(responseObj));
       return responseObj;
     })
     .catch((error) => {
       // console.error('function requestGetAnswer fetch failed', error);
       throw error;
     });
-
 }
 
 // Fetch answer of question
 // @param {} playerId,
 // @returns nothing
-function putAnswerAsPlayer(playerId, answerIds) {
-  const answerDataObj = { "answerIds": answerIds.map(Number) };
+function putAnswerAsPlayer (playerId, answerIds) {
+  const answerDataObj = { answerIds: answerIds.map(Number) };
   console.log(answerDataObj);
   const answerDataJson = JSON.stringify(answerDataObj);
   // set states
@@ -117,17 +104,16 @@ function putAnswerAsPlayer(playerId, answerIds) {
     });
 }
 
-
-function SingleToggleButton(value, key) {
+function SingleToggleButton (value, key) {
   return (
     <ToggleButton
       value={value}
       key={key}
       sx={{
-        "&.MuiToggleButtonGroup-grouped": {
-          borderRadius: "4px !important",
+        '&.MuiToggleButtonGroup-grouped': {
+          borderRadius: '4px !important',
           my: 2,
-          border: "1px solid lightgrey !important"
+          border: '1px solid lightgrey !important'
         },
       }}
     >
@@ -136,9 +122,7 @@ function SingleToggleButton(value, key) {
   );
 }
 
-
-function ChoicesCard({ questionObj, countDown }) {
-
+function ChoicesCard ({ questionObj, countDown }) {
   const [playerAnswers, setPlayerAnswers] = React.useState([]);
   const [correctAnswersId, setCorrectAnswersId] = React.useState(null);
 
@@ -148,20 +132,18 @@ function ChoicesCard({ questionObj, countDown }) {
 
   let choiceDict = {}
   if (questionObj == null) {
-    //placeholder
-    choiceDict = { 0: "choice1", 1: "choice2", 2: "choice3", 3: "choice4", 4: "choice5", 5: "choice6" };
-  }
-  else {
-    questionObj["options"].forEach(option => choiceDict[option["id"]] = option["content"]);
+    // placeholder
+    choiceDict = { 0: 'choice1', 1: 'choice2', 2: 'choice3', 3: 'choice4', 4: 'choice5', 5: 'choice6' };
+  } else {
+    questionObj.options.forEach(option => { choiceDict[option.id] = option.content });
   }
 
-
-  // const choiceDict = {0:"choice1",1:"choice2",2:"choice3",3:"choice4",4:"choice5",5:"choice6"};
-  const choiceList = Object.values(choiceDict);
-  // const choiceList = ["choice1", "choice2", "choice3", "choice4", "choice5", "choice6"];
+  // const choiceDict = {0:'choice1',1:'choice2',2:'choice3',3:'choice4',4:'choice5',5:'choice6'};
+  // const choiceList = Object.values(choiceDict);
+  // const choiceList = ['choice1', 'choice2', 'choice3', 'choice4', 'choice5', 'choice6'];
 
   React.useEffect(() => {
-    function getCorrectAnswers() {
+    function getCorrectAnswers () {
       if (countDown < 0) {
         getAnswerAsPlayer(playerId).then(answerIds => {
           if (answerIds != null) {
@@ -183,39 +165,37 @@ function ChoicesCard({ questionObj, countDown }) {
     }
 
     // detect if there is a new question
-    if(questionObj!=null){
-      if(prevQuestionObj==null||prevQuestionObj["content"]!=questionObj["content"]){
+    if (questionObj != null) {
+      if (prevQuestionObj == null || prevQuestionObj.content !== questionObj.content) {
         setCorrectAnswersId(null);
         setPlayerAnswers([]);
       }
       setPrevQuestionObj(questionObj);
     }
-
   }, [questionObj]);
 
   const handleChoices = (event, newAnswers) => {
     setPlayerAnswers(newAnswers);
     const newAnswersIds = newAnswers.map(v => Object.keys(choiceDict).find(k => choiceDict[k] === v))
     putAnswerAsPlayer(playerId, newAnswersIds);
-
   };
 
   // let choiceBtnList = choiceList.map((v, i) => {
   //   return SingleToggleButton(v, i);
   // });
-  let choiceBtnList = Object.keys(choiceDict).map(k => {
+  const choiceBtnList = Object.keys(choiceDict).map(k => {
     return SingleToggleButton(choiceDict[k], k);
   });
 
   return (
-    <Box sx={{ width: "100%" }}>
-      {correctAnswersId !== null ? ("Correct answer is:") : ("Your answer is:")}
+    <Box sx={{ width: '100%' }}>
+      {correctAnswersId !== null ? ('Correct answer is:') : ('Your answer is:')}
       <ToggleButtonGroup
         value={playerAnswers}
         onChange={handleChoices}
         disabled={countDown < 0}
         sx={{
-          border: "1px solid lightgrey",
+          border: '1px solid lightgrey',
           display: 'flex',
           flexDirection: 'row',
           flexWrap: 'wrap',
@@ -228,14 +208,15 @@ function ChoicesCard({ questionObj, countDown }) {
   );
 }
 
-// function MemoChoicesCard({ questionObj }) {
-//   return React.memo(<ChoicesCard questionObj={questionObj} />, );
-// }
+ChoicesCard.propTypes = {
+  questionObj: PropTypes.object,
+  countDown: PropTypes.number
+}
+
 export default React.memo(ChoicesCard, (prevProps, nextProps) => {
   if (prevProps.questionObj != null && nextProps.questionObj != null && prevProps.countDown != null && nextProps.countDown != null) {
-    return (prevProps.questionObj["content"] === nextProps.questionObj["content"]) && (prevProps.countDown === nextProps.countDown);
-  }
-  else {
+    return (prevProps.questionObj.content === nextProps.questionObj.content) && (prevProps.countDown === nextProps.countDown);
+  } else {
     return false;
   }
 });
