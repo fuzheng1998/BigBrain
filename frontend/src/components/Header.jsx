@@ -3,9 +3,9 @@ import {useContext} from 'react';
 import '@fontsource/roboto';
 import {AppBar, Box, Link, Toolbar, Typography} from '@mui/material';
 import Button from '@mui/material/Button';
-import {userContext} from "../App";
-import {AUTH} from "../config";
-import {useNavigate} from "react-router-dom";
+import {userContext} from '../App';
+import {AUTH} from '../config';
+import {useNavigate} from 'react-router-dom';
 
 function HeaderBar () {
   return (
@@ -22,29 +22,29 @@ function HeaderBar () {
   );
 }
 function LoginOutButton () {
-    const [user, setUser] = useContext(userContext);
-    let navigate = useNavigate();
-    const logout = ()=>{
-        fetch(AUTH.LOGOUT_URL,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': localStorage.getItem('auth_token')
-                },
-            })
-            .then(r => {
-                if (r.ok) {
-                    setUser(null);
-                    localStorage.removeItem('auth_token');
-                }
-            })
-            .catch(err => console.log(err));
-    }
-    if (user === null) {
-        return <Button variant="text" color={'inherit'} onClick={()=>{navigate("../login")}}>login</Button>;
-    } else {
-        return <Button variant="text" color={'inherit'} onClick={logout}>logout</Button>;
-    }
+  const [user, setUser] = useContext(userContext);
+  const navigate = useNavigate();
+  const logout = () => {
+    fetch(AUTH.LOGOUT_URL,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('auth_token')
+        },
+      })
+      .then(r => {
+        if (r.ok) {
+          setUser(null);
+          localStorage.removeItem('auth_token');
+        }
+      })
+      .catch(err => console.log(err));
+  }
+  if (user === null) {
+    return <Button variant="text" color={'inherit'} onClick={() => { navigate('../login') }}>login</Button>;
+  } else {
+    return <Button variant="text" color={'inherit'} onClick={logout}>logout</Button>;
+  }
 }
 export default HeaderBar;
