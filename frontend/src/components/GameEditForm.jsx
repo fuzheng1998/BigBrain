@@ -191,7 +191,7 @@ function QuestionAddFormDialog (props) {
     // },
     options: [],
     answers: [],
-    mediaType: undefined,
+    mediaType: null,
     image: '',
     videoCode: '',
   }
