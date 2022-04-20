@@ -11,34 +11,34 @@ import TabPanel from '@mui/lab/TabPanel';
 
 
 const data = [
-    { year: '1950', population: 2.525 },
-    { year: '1960', population: 3.018 },
-    { year: '1970', population: 3.682 },
-    { year: '1980', population: 4.440 },
-    { year: '1990', population: 5.310 },
-    { year: '2000', population: 6.127 },
-    { year: '2010', population: 6.930 },
-];
+    { question: 'Q1', value: 77 },
+    { question: 'Q2', value: 33 },
+    { question: 'Q3', value: 55 },
+    { question: 'Q4', value: 22 },
+    { question: 'Q5', value: 85 },
+    { question: 'Q6', value: 88 },
+    { question: 'Q7', value: 10 },
+]
 
 const data2 = [
-    { year: '1950', population: 100 },
-    { year: '1960', population: 90 },
-    { year: '1970', population: 30 },
-    { year: '1980', population: 80 },
-    { year: '1990', population: 66 },
-    { year: '2000', population: 66 },
-    { year: '2010', population: 66 },
+    { question: 'Q1', value: 20 },
+    { question: 'Q2', value: 10 },
+    { question: 'Q3', value: 3 },
+    { question: 'Q4', value: 8 },
+    { question: 'Q5', value: 32 },
+    { question: 'Q6', value: 16 },
+    { question: 'Q7', value: 20 },
 ];
 
 
 const data3 = [
-    { year: '1950', population: 88 },
-    { year: '1960', population: 88 },
-    { year: '1970', population: 88 },
-    { year: '1980', population: 88 },
-    { year: '1990', population: 88 },
-    { year: '2000', population: 88 },
-    { year: '2010', population: 88 },
+    { question: 'Q1', value: 32},
+    { question: 'Q2', value: 66 },
+    { question: 'Q3', value: 12 },
+    { question: 'Q4', value: 82 },
+    { question: 'Q5', value: 43 },
+    { question: 'Q6', value: 54 },
+    { question: 'Q7', value: 22 },
 ];
 
 // a single chart
@@ -49,8 +49,8 @@ function SingleGameResult({ data , type }){
             <ValueAxis />
 
             <BarSeries
-                valueField="population"
-                argumentField="year"
+                valueField="value"
+                argumentField="question"
             />
             <EventTracker />
             <HoverState />

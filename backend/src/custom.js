@@ -34,7 +34,7 @@ export const quizQuestionPublicReturn = question => {
 */
 export const quizQuestionGetCorrectAnswers = question => {
   console.log("Call getCorrectAnswer Backend: ", new Date().toUTCString());
-  return question.answers
+  return question.answers;
 };
 
 /*

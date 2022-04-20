@@ -9,6 +9,7 @@ import Container from '@mui/material/Container';
 
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom';
 
 // import components
 import QuestionCard from '../components/playgame/QuestionCard';
@@ -18,6 +19,7 @@ import LobbyCard from '../components/playgame/LobbyCard';
 
 // import urls
 import { PLAYER } from '../config.js';
+import { TrafficRounded } from '@mui/icons-material';
 
 export const PlayGameContext = React.createContext()
 
@@ -103,9 +105,8 @@ function updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, se
       else {
         console.error('function checkGameStatus failed', error);
 
-        
-        navigate('/');
-        alert(error);
+        // navigate('/');
+        // alert(error);
         // throw(error);
         return false;
       }
@@ -122,13 +123,13 @@ function updateGameQuestion(playerId, setCurrentQuestion, setCountDown) {
   // set states
   return requestGameQuestion(playerId)
     .then(questionObj => {
-        // Question is updated every time even if it's the same
-        // Reset timer
-        setCurrentQuestion(questionObj);
-        const timeLatency = Math.ceil((Date.now() - Date.parse(questionObj["isoTimeLastQuestionStarted"])) / 1000);
-        const remainingTime = Math.max(questionObj["time"] - timeLatency, -1);
-        setCountDown(remainingTime);
-        console.log(remainingTime);
+      // Question is updated every time even if it's the same
+      // Reset timer
+      setCurrentQuestion(questionObj);
+      const timeLatency = Math.ceil((Date.now() - Date.parse(questionObj["isoTimeLastQuestionStarted"])) / 1000);
+      const remainingTime = Math.max(questionObj["time"] - timeLatency, -1);
+      setCountDown(remainingTime);
+      console.log(remainingTime);
     }).catch(error => {
       console.info('function requestGameQuestion failed', error);
       // alert(error);
@@ -158,22 +159,28 @@ function PlayGame() {
   // Poll game status continuously
   // Poll game question continuously
   //      :This is to prevent the question being advanced before the timer is up
-  React.useEffect( () => {
+  React.useEffect(() => {
     // perform initial check and abort if not valid
     // can't async
     // const initialCheck = await updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame, navigate)
-    setPollIntervalId(setInterval(() => updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame, navigate), 1000));
-    setQuestionIntervalId(setInterval(() => updateGameQuestion(playerId, setCurrentQuestion, setCountDown), 1000));
+    console.log("Run effect!");
+    let pollInterval, questionInterval;
+    if (!isEndOfGame) {
+      pollInterval = setInterval(() => updateGameStatus(playerId, isGameStart, setIsGameStart, isEndOfGame, setIsEndOfGame, navigate), 1000);
+      questionInterval = setInterval(() => updateGameQuestion(playerId, setCurrentQuestion, setCountDown), 1000);
+      setPollIntervalId(pollInterval);
+      setQuestionIntervalId(questionInterval);
 
-    return () => {
-      clearInterval(pollIntervalId);
-      clearInterval(questionIntervalId);
-      console.log("Cleaning up!",pollIntervalId,questionIntervalId);
-      setPollIntervalId(null);
-      setQuestionIntervalId(null);
-    };
+      return () => {
+        clearInterval(pollInterval);
+        clearInterval(questionInterval);
+        console.log("Cleaning up!", pollInterval, questionInterval);
+        setPollIntervalId(null);
+        setQuestionIntervalId(null);
+      };
+    }
+
   }, [isGameStart, isEndOfGame]);
-
 
   return (
     <PlayGameContext.Provider value={{ countDown, setCountDown }}>
@@ -192,6 +199,8 @@ function PlayGame() {
               <>
                 <ResultCard />
                 <Button
+                  component={RouterLink} 
+                  to="/player/join"
                   variant="contained"
                   size="large"
                   sx={{ mt: 3, mb: 2, width: 0.8, fontSize: 24 }}

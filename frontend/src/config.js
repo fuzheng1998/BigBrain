@@ -24,5 +24,6 @@ export const PLAYER = {
     JOIN_URL: (sessionid) => `${BACKEND_URL}/play/join/${sessionid}`,
     STATUS_URL: (playerid) => `${BACKEND_URL}/play/${playerid}/status`,
     ANSWER_URL: (playerid) => `${BACKEND_URL}/play/${playerid}/answer`,
-    QUESTION_URL: (playerid) => `${BACKEND_URL}/play/${playerid}/question`
+    QUESTION_URL: (playerid) => `${BACKEND_URL}/play/${playerid}/question`,
+    RESULTS_URL: (playerid) => `${BACKEND_URL}/play/${playerid}/results`,
 }

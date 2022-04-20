@@ -103,13 +103,13 @@ function requestPutAnswer(playerId, answerDataJson) {
 // @param {} playerId,
 // @returns nothing
 function putAnswerAsPlayer(playerId, answerIds) {
-  const answerDataObj = { "answerIds": answerIds };
+  const answerDataObj = { "answerIds": answerIds.map(Number) };
+  console.log(answerDataObj);
   const answerDataJson = JSON.stringify(answerDataObj);
-  console.log("Attempt to send", answerDataObj, answerDataJson);
   // set states
   return requestPutAnswer(playerId, answerDataJson)
     .then(responseObj => {
-      console.log(responseObj)
+      // console.log(responseObj)
     }).catch(error => {
       console.error('function putAnswerAsPlayer failed', error);
       alert(error);
@@ -160,8 +160,6 @@ function ChoicesCard({ questionObj, countDown }) {
   const choiceList = Object.values(choiceDict);
   // const choiceList = ["choice1", "choice2", "choice3", "choice4", "choice5", "choice6"];
 
-  console.log(playerAnswers);
-
   React.useEffect(() => {
     function getCorrectAnswers() {
       if (countDown < 0) {
@@ -186,7 +184,6 @@ function ChoicesCard({ questionObj, countDown }) {
 
     // detect if there is a new question
     if(questionObj!=null){
-      console.log(prevQuestionObj,questionObj);
       if(prevQuestionObj==null||prevQuestionObj["content"]!=questionObj["content"]){
         setCorrectAnswersId(null);
         setPlayerAnswers([]);
@@ -199,7 +196,6 @@ function ChoicesCard({ questionObj, countDown }) {
   const handleChoices = (event, newAnswers) => {
     setPlayerAnswers(newAnswers);
     const newAnswersIds = newAnswers.map(v => Object.keys(choiceDict).find(k => choiceDict[k] === v))
-    console.log("Attemp to pass:", newAnswers, newAnswersIds);
     putAnswerAsPlayer(playerId, newAnswersIds);
 
   };
@@ -237,8 +233,6 @@ function ChoicesCard({ questionObj, countDown }) {
 // }
 export default React.memo(ChoicesCard, (prevProps, nextProps) => {
   if (prevProps.questionObj != null && nextProps.questionObj != null && prevProps.countDown != null && nextProps.countDown != null) {
-    // console.log(prevProps.questionObj,nextProps.questionObj,prevProps.questionObj["content"]===nextProps.questionObj["content"]);
-    // console.log(prevProps.countDown, nextProps.countDown);
     return (prevProps.questionObj["content"] === nextProps.questionObj["content"]) && (prevProps.countDown === nextProps.countDown);
   }
   else {

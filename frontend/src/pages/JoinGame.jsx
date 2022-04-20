@@ -50,12 +50,12 @@ function requestJoinAsUser(joinDataJson, sessionId) {
 // Perform actions for join
 // @param {Object} formDataObj
 // @returns {Promise.Object} response body from join request
-function JoinAsUser(formDataObj, sessionId) {
+function JoinAsUser(formDataObj) {
   //Convert object to json
   let joinDataJson = "";
   joinDataJson = JSON.stringify({"name":formDataObj["playername"]});
 
-  return requestJoinAsUser(joinDataJson, sessionId)
+  return requestJoinAsUser(joinDataJson, formDataObj["sessionID"])
       .then(responseObj => {
           return responseObj;
       }).catch(error => {
@@ -78,12 +78,12 @@ function JoinGame() {
 
     console.log({formDataObj});
 
-    JoinAsUser(formDataObj,sessionId).then(responseObj => {
+    JoinAsUser(formDataObj).then(responseObj => {
       // receive player id and navigate to game page
       const PLAYER_ID = responseObj["playerId"];
       localStorage.setItem('PLAYER_ID',PLAYER_ID)
       console.log(PLAYER_ID);
-      navigate(`/player/play/${sessionId}`);
+      navigate(`/player/play/${formDataObj["sessionID"]}`);
     }).catch((error) => {
       console.error('Join Game failed', error);
       alert(error);
