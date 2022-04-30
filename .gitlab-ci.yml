@@ -29,7 +29,7 @@ install-job:
   stage: .pre
   script:
     - cd ./frontend
-    - npm ci
+    - npm install
 
 build-job:
   stage: build
