@@ -28,10 +28,8 @@ cache:
 install-job:
   stage: .pre
   script:
+    - cd ./frontend
     - npm ci --cache .npm --prefer-offline
-
-before_script:
-  - npm ci --cache .npm --prefer-offline
 
 build-job:
   stage: build
