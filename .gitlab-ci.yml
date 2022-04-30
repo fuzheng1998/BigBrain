@@ -23,6 +23,7 @@ stages:          # List of stages for jobs, and their order of execution
 install:
   stage: .pre
   script:
+    - cd ./frontend
     - npm ci
   cache:
     key:
