@@ -24,13 +24,13 @@ install:
   stage: .pre
   script:
     - cd ./frontend
-    - npm ci
+    - npm install
   cache:
     key:
       files:
         - package-lock.json
     paths:
-      - .npm
+      - ./node_modules
 
 build-job:
   stage: build
