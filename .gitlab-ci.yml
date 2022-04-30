@@ -38,6 +38,7 @@ lint-lint-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
   script:
     - cd ./frontend
+    - npm install
     - npm run lint
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
