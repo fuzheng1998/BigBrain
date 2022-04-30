@@ -23,7 +23,7 @@ stages:          # List of stages for jobs, and their order of execution
 cache:
   key: $CI_COMMIT_REF_SLUG
   paths:
-    - ./fronted/node_modules
+    - ./node_modules
 
 install-job:
   stage: .pre
