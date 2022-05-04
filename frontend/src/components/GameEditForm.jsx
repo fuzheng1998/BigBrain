@@ -1,23 +1,23 @@
 import * as React from 'react';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import '@fontsource/roboto';
 import {
-    Autocomplete,
-    Box,
-    ButtonGroup,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Grid,
-    IconButton,
-    Input,
-    TextField
+  Autocomplete,
+  Box,
+  ButtonGroup,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
+  Input,
+  TextField
 } from '@mui/material';
 import Button from '@mui/material/Button';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
-import {PhotoCamera} from '@mui/icons-material';
-import {QUIZ} from '../config';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { PhotoCamera } from '@mui/icons-material';
+import { QUIZ } from '../config';
 import PropTypes from 'prop-types';
 
 function GameEditForm () {
@@ -382,13 +382,14 @@ function QuestionAddFormDialog (props) {
   );
 }
 OptionInput.propTypes = {
-  question: PropTypes.object.isRequired,
-  setQuestion: PropTypes.func.isRequired,
-  addHandler: PropTypes.func.isRequired,
-  handleOptionList: PropTypes.func.isRequired,
-  handleCloseDialog: PropTypes.func.isRequired,
-  mediaType: PropTypes.string.isRequired,
-  setMediaType: PropTypes.func.isRequired,
+  question: PropTypes.object,
+  setQuestion: PropTypes.func,
+  addHandler: PropTypes.func,
+  handleOptionList: PropTypes.func,
+  handleCloseDialog: PropTypes.func,
+  mediaType: PropTypes.string,
+  setMediaType: PropTypes.func,
+  optionId: PropTypes.number
 };
 function OptionInput (props) {
   // console.log(props);

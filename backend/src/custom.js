@@ -10,10 +10,6 @@ export const quizQuestionPublicReturn = question => {
   //   points: 10,
   //   type: "multiple",
   //   time: 10
-  //   media: {
-  //       type:(image/video)
-  //       data:
-  //   },
   //   options: [
   //   {
   //      id:  1
@@ -21,10 +17,16 @@ export const quizQuestionPublicReturn = question => {
   //   }
   //   ],
   //  answers: []
+  //  mediaType: null
+  //  image: ""
+  //  videoCode: ""
   // }
-  delete question.answers;
-  console.log('See question: ', question);
-  return question;
+
+
+  // delete question.answers;
+  let newQuestion = JSON.parse(JSON.stringify(question));
+  delete newQuestion.answers;
+  return newQuestion;
 };
 
 /*
@@ -32,7 +34,8 @@ export const quizQuestionPublicReturn = question => {
  the correct answers (minimum 1).
 */
 export const quizQuestionGetCorrectAnswers = question => {
-  return question.answers
+  console.log("Call getCorrectAnswer Backend: ", new Date().toUTCString());
+  return question.answers;
 };
 
 /*
